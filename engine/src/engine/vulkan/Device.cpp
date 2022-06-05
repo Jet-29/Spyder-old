@@ -197,6 +197,7 @@ namespace Spyder::Vulkan {
 			}
 		}
 		SPYDER_CORE_ERROR("Failed to find supported format!");
+		return {};
 	}
 
 	void Device::createImageWithInfo(const VkImageCreateInfo &imageInfo, VkMemoryPropertyFlags properties, VkImage &image, VkDeviceMemory &imageMemory) {
