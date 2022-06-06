@@ -1,9 +1,9 @@
 #include "SwapChain.h"
 
 namespace Spyder::Vulkan {
-	SwapChain::SwapChain(Device &device, Surface &surface, glm::vec2 windowSize) : r_Device{device}, r_Surface{surface}, m_WindowSize{windowSize} {}
+	SwapChain::SwapChain(Device &device, Surface &surface) : r_Device{device}, r_Surface{surface} {}
 
-	SwapChain::SwapChain(Device &device, Surface &surface, glm::vec2 windowSize, std::shared_ptr<SwapChain> previous) : r_Device{device}, r_Surface{surface}, m_WindowSize{windowSize}, oldSwapChain{std::move(previous)} {}
+	SwapChain::SwapChain(Device &device, Surface &surface, std::shared_ptr<SwapChain> previous) : r_Device{device}, r_Surface{surface}, oldSwapChain{std::move(previous)} {}
 
 	VkFormat SwapChain::findDepthFormat() {
 		return r_Device.findSupportedFormat({VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT}, VK_IMAGE_TILING_OPTIMAL, VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT);
@@ -62,7 +62,8 @@ namespace Spyder::Vulkan {
 		return swapChain.m_SwapChainDepthFormat == m_SwapChainDepthFormat && swapChain.m_SwapChainImageFormat == m_SwapChainImageFormat;
 	}
 
-	void SwapChain::init() {
+	void SwapChain::init(glm::vec2 windowSize) {
+		m_WindowSize = windowSize;
 		SPYDER_CORE_TRACE("Initializing the swapChain...");
 		// setting the correct extent
 		m_WindowExtent.width = static_cast<uint32_t>(m_WindowSize[0]);

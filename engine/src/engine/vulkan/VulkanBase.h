@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/core/Base.h"
+#include <vulkan/vulkan.hpp>
 
 #define VK_CHECK(x)                                                         \
     do                                                                      \

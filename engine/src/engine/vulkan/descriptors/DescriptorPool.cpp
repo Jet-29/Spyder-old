@@ -4,9 +4,9 @@ namespace Spyder::Vulkan {
 	DescriptorPool::Builder::Builder(Device &device) : r_Device{device} {}
 
 	DescriptorPool::Builder &DescriptorPool::Builder::addPoolSize(VkDescriptorType descriptorType, uint32_t count) {
-		SPYDER_CORE_TRACE("Adding pool size of type {0}, and size {}", descriptorType, count);
-			poolSizes.push_back({descriptorType, count});
-			return *this;
+		SPYDER_CORE_TRACE("Adding pool with size {}", count);
+		poolSizes.push_back({descriptorType, count});
+		return *this;
 	}
 
 	DescriptorPool::Builder &DescriptorPool::Builder::setPoolFlags(VkDescriptorPoolCreateFlags flags) {

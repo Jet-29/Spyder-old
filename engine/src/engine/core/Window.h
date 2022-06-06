@@ -23,6 +23,10 @@ namespace Spyder {
 		[[nodiscard]] GLFWwindow *getWindow();
 		[[nodiscard]] glm::vec3 &getBackgroundColor();
 
+		[[nodiscard]] float extentAspectRatio() const {
+			return static_cast<float>(m_WindowSize[0]) / static_cast<float>(m_WindowSize[1]);
+		}
+
 		void resetWindowResizedFlag();
 		void setBackground(glm::vec3 newColor);
 

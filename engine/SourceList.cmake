@@ -15,4 +15,6 @@ set(SOURCE_FILES
         "src/engine/vulkan/descriptors/DescriptorSetLayout.cpp"
         "src/engine/vulkan/descriptors/DescriptorWriter.cpp"
         "src/engine/entity component system/Mesh.cpp"
+        "src/engine/utilities/UtilityFunctions.cpp"
+        "src/engine/vulkan/CommandPool.cpp"
         )

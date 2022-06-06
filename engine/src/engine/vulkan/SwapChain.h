@@ -10,15 +10,15 @@ namespace Spyder::Vulkan {
 	class SwapChain {
 	public:
 		static constexpr int MAX_FRAMES_IN_FLIGHT = 3;
-		SwapChain(Device &device, Surface &surface, glm::vec2 windowSize);
-		SwapChain(Device &device, Surface &surface, glm::vec2 windowSize, std::shared_ptr<SwapChain> previous);
+		SwapChain(Device &device, Surface &surface);
+		SwapChain(Device &device, Surface &surface, std::shared_ptr<SwapChain> previous);
 
 		~SwapChain() = default;
 
 		SwapChain(const SwapChain &) = delete;
 		SwapChain &operator=(const SwapChain &) = delete;
 
-		void init();
+		void init(glm::vec2 windowSize);
 		void cleanup();
 
 		VkFramebuffer getFrameBuffer(int index) { return m_SwapChainFramebuffers[index]; }
@@ -36,10 +36,6 @@ namespace Spyder::Vulkan {
 		[[nodiscard]] uint32_t width() const { return m_SwapChainExtent.width; }
 
 		[[nodiscard]] uint32_t height() const { return m_SwapChainExtent.height; }
-
-		[[nodiscard]] float extentAspectRatio() const {
-			return static_cast<float>(m_SwapChainExtent.width) / static_cast<float>(m_SwapChainExtent.height);
-		}
 
 		VkFormat findDepthFormat();
 		VkResult acquireNextImage(uint32_t *imageIndex);
@@ -73,7 +69,7 @@ namespace Spyder::Vulkan {
 
 		Device &r_Device;
 		Surface &r_Surface;
-		glm::vec2 m_WindowSize;
+		glm::vec2 m_WindowSize{};
 		VkExtent2D m_WindowExtent{};
 
 		VkSwapchainKHR swapChain{};

@@ -6,37 +6,20 @@ namespace Spyder {
 
 	class Mesh {
 	public:
-		struct Builder {
-			std::vector<Vertex> m_Vertices{};
-			std::vector<uint32_t> m_Indices{};
-			void loadModel(const std::vector<Vertex> vertices);
-		};
+		Mesh() = default;
+		~Mesh() = default;
 
-		lve_model(lve_device &device, const Builder &builder);
-		~lve_model();
+		Mesh(const Mesh &) = delete;
+		Mesh &operator=(const Mesh &) = delete;
 
-		lve_model(const lve_model &) = delete;
-		lve_model &operator=(const lve_model &) = delete;
-
-		static std::unique_ptr<lve_model> createModelFromFile(lve_device &device, const std::string &filepath);
-		static std::unique_ptr<lve_model> createModelFromString(lve_device &device, const std::string &obj_text, const std::string &mtl_text);
-
-		void bind(VkCommandBuffer commandBuffer);
-		void draw(VkCommandBuffer commandBuffer);
+		void loadModel(std::vector<Vertex> vertices);
 
 	private:
-		void createVertexBuffers(const std::vector<Vertex> &vertices);
-		void createIndexBuffers(const std::vector<uint32_t> &indices);
+		std::vector<Vertex> m_AllVertices{};
+		std::vector<Vertex> m_UniqueVertices{};
+		std::unordered_map<Vertex, uint32_t, VertexHash> m_VertexMap{};
+		std::vector<uint32_t> m_Indices{};
 
-		lve_device &lveDevice;
-
-		std::unique_ptr<lve_buffer> vertexBuffer;
-		uint32_t vertexCount{};
-
-		bool hasIndexBuffer = false;
-
-		std::unique_ptr<lve_buffer> indexBuffer;
-		uint32_t indexCount{};
 	};
 
 } // Spyder

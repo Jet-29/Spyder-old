@@ -13,6 +13,7 @@ namespace Spyder {
 		Engine &operator=(const Engine &) = delete;
 
 		void init();
+		void display();
 
 	private:
 		Window m_Window{};
