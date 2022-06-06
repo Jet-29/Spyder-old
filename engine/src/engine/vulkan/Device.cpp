@@ -6,14 +6,14 @@ namespace Spyder::Vulkan {
 	Device::Device(Instance &instance, Surface &surface) : r_Instance{instance}, r_Surface{surface} {}
 
 	void Device::init() {
-		SPYDER_CORE_TRACE("Initializing r_Device...");
+		SPYDER_CORE_TRACE("Initializing Device...");
 		pickPhysicalDevice();
 		createLogicalDevice();
 		SPYDER_CORE_TRACE("Device initialized");
 	}
 
 	void Device::cleanup() {
-		SPYDER_CORE_TRACE("Destroying r_Device...");
+		SPYDER_CORE_TRACE("Destroying Device...");
 		vkDestroyDevice(m_Device, nullptr);
 		SPYDER_CORE_TRACE("Device destroyed");
 	}
@@ -32,7 +32,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Device::pickPhysicalDevice() {
-		SPYDER_CORE_TRACE("Picking physical r_Device...");
+		SPYDER_CORE_TRACE("Picking physical Device...");
 		uint32_t deviceCount = 0;
 		vkEnumeratePhysicalDevices(r_Instance.getInstance(), &deviceCount, nullptr);
 		if (deviceCount == 0) {
@@ -55,12 +55,12 @@ namespace Spyder::Vulkan {
 		}
 
 		vkGetPhysicalDeviceProperties(m_PhysicalDevice, &m_Properties);
-		SPYDER_CORE_INFO("Physical r_Device: {}", m_Properties.deviceName);
-		SPYDER_CORE_TRACE("Physical r_Device found");
+		SPYDER_CORE_INFO("Physical Device: {}", m_Properties.deviceName);
+		SPYDER_CORE_TRACE("Physical Device found");
 	}
 
 	void Device::createLogicalDevice() {
-		SPYDER_CORE_TRACE("Creating logical r_Device...");
+		SPYDER_CORE_TRACE("Creating logical Device...");
 		QueueFamilyIndices indices = findQueueFamilies(m_PhysicalDevice);
 
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
@@ -93,7 +93,7 @@ namespace Spyder::Vulkan {
 
 		vkGetDeviceQueue(m_Device, indices.graphicsFamily, 0, &m_GraphicsQueue);
 		vkGetDeviceQueue(m_Device, indices.presentFamily, 0, &m_PresentQueue);
-		SPYDER_CORE_TRACE("Logical r_Device found");
+		SPYDER_CORE_TRACE("Logical Device found");
 	}
 
 	bool Device::isDeviceSuitable(VkPhysicalDevice device) {

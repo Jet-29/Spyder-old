@@ -58,8 +58,8 @@ namespace Spyder::Vulkan {
 		return result;
 	}
 
-	bool SwapChain::compareSwapFormats(const SwapChain &lveSwapChain) const {
-		return lveSwapChain.m_SwapChainDepthFormat == m_SwapChainDepthFormat && lveSwapChain.m_SwapChainImageFormat == m_SwapChainImageFormat;
+	bool SwapChain::compareSwapFormats(const SwapChain &swapChain) const {
+		return swapChain.m_SwapChainDepthFormat == m_SwapChainDepthFormat && swapChain.m_SwapChainImageFormat == m_SwapChainImageFormat;
 	}
 
 	void SwapChain::init() {

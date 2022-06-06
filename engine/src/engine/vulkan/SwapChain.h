@@ -44,7 +44,7 @@ namespace Spyder::Vulkan {
 		VkFormat findDepthFormat();
 		VkResult acquireNextImage(uint32_t *imageIndex);
 		VkResult submitCommandBuffers(const VkCommandBuffer *buffers, const uint32_t *imageIndex);
-		[[nodiscard]] bool compareSwapFormats(const SwapChain &lveSwapChain) const;
+		[[nodiscard]] bool compareSwapFormats(const SwapChain &swapChain) const;
 
 	private:
 		void createSwapChain();
