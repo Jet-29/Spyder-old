@@ -44,5 +44,4 @@ namespace Spyder {
 			return seed;
 		}
 	};
-
 }

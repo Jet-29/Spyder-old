@@ -17,4 +17,11 @@ set(SOURCE_FILES
         "src/engine/entity component system/Mesh.cpp"
         "src/engine/utilities/UtilityFunctions.cpp"
         "src/engine/vulkan/CommandPool.cpp"
+        "src/engine/vulkan/renderers/MeshRenderer.cpp"
+        "src/engine/vulkan/Pipeline.cpp"
+        "src/engine/vulkan/Batch.cpp"
+        "src/engine/vulkan/MemoryAllocator.cpp"
+        "src/engine/vulkan/MemoryManagement.cpp"
+        "src/engine/entity component system/GameObject.cpp"
+        "src/engine/entity component system/Transform.cpp"
         )

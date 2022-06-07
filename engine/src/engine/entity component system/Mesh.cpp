@@ -19,4 +19,12 @@ namespace Spyder {
 			m_Indices.push_back(m_VertexMap[vertex]);
 		}
 	}
+
+	std::vector<Vertex>& Mesh::getUniqueVertices() {
+		return m_UniqueVertices;
+	}
+
+	std::vector<uint32_t>& Mesh::getUniqueIndices() {
+		return m_Indices;
+	}
 } // Spyder

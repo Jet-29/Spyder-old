@@ -4,6 +4,7 @@
 #include "Device.h"
 #include "SwapChain.h"
 #include "CommandPool.h"
+#include "MemoryManagement.h"
 
 namespace Spyder::Vulkan {
 
@@ -33,6 +34,7 @@ namespace Spyder::Vulkan {
 		Instance m_Instance{};
 		Surface m_Surface{m_Instance, r_Window};
 		Device m_Device{m_Instance, m_Surface};
+		MemoryManagement m_MemoryManager{m_Instance, m_Device};
 		CommandPool m_CommandPool{m_Device};
 		SwapChain m_SwapChain{m_Device, m_Surface};
 
