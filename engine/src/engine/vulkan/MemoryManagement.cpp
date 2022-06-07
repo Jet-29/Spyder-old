@@ -1,7 +1,7 @@
 #include "MemoryManagement.h"
 
 namespace Spyder::Vulkan {
-	MemoryManagement::MemoryManagement(Instance& instance, Device& device) : r_Instance{instance}, r_Device{device} {}
+	MemoryManagement::MemoryManagement(Instance &instance, Device &device) : r_Instance{instance}, r_Device{device} {}
 
 	void MemoryManagement::init() {
 		VmaAllocatorCreateInfo allocatorCreateInfo = {};
@@ -11,5 +11,36 @@ namespace Spyder::Vulkan {
 		allocatorCreateInfo.instance = r_Instance.getInstance();
 
 		vmaCreateAllocator(&allocatorCreateInfo, &m_Allocator);
+	}
+
+	void MemoryManagement::createBuffer(VkBuffer buffer, VmaAllocation bufferMemoryAllocation, VkDeviceSize size, VkBufferUsageFlags usage) {
+		VkBufferCreateInfo bufferCreateInfo{};
+		bufferCreateInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+		bufferCreateInfo.pNext = nullptr;
+		bufferCreateInfo.size = size;
+		bufferCreateInfo.usage = usage;
+		bufferCreateInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+		VmaAllocationCreateInfo allocationCreateInfo{};
+		allocationCreateInfo.usage = static_cast<VmaMemoryUsage>(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+
+
+		VK_CHECK(vmaCreateBuffer(m_Allocator, &bufferCreateInfo, &allocationCreateInfo, &buffer, &bufferMemoryAllocation, nullptr));
+	}
+
+	VkResult MemoryManagement::mapMemory(VmaAllocation memoryAllocation, void *data) {
+		return vmaMapMemory(m_Allocator, memoryAllocation, &data);
+	}
+
+	void MemoryManagement::unmapMemory(VmaAllocation memoryAllocation) {
+		vmaUnmapMemory(m_Allocator, memoryAllocation);
+	}
+
+	VkResult MemoryManagement::flushMemory(VmaAllocation memoryAllocation, VkDeviceSize offset, VkDeviceSize size) {
+		return vmaFlushAllocation(m_Allocator, memoryAllocation, offset, size);
+	}
+
+	VkResult MemoryManagement::invalidateMemory(VmaAllocation memoryAllocation, VkDeviceSize offset, VkDeviceSize size) {
+		return vmaInvalidateAllocation(m_Allocator, memoryAllocation, offset, size);
 	}
 } // Vulkan

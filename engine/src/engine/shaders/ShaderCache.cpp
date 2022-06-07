@@ -3,7 +3,7 @@
 
 namespace Spyder {
 
-	std::vector<uint32_t> ShaderCache::getShader(const std::string &source, const std::string& shaderName, shaderc_shader_kind kind) {
+	std::vector<uint32_t> ShaderCache::getShader(const std::string &source, const std::string &shaderName, shaderc_shader_kind kind) {
 		SPYDER_CORE_TRACE("Checking if shader has been compiled");
 		if (cache.contains(source)) {
 			SPYDER_CORE_TRACE("Shader already compiled, using cached");
@@ -14,7 +14,7 @@ namespace Spyder {
 		return cache.at(source);
 	}
 
-	ShaderCache::ShaderCache() {
+	void ShaderCache::init() {
 		SPYDER_CORE_TRACE("ShaderCache initialized");
 		m_CompileOptions.SetOptimizationLevel(shaderc_optimization_level_performance);
 	}

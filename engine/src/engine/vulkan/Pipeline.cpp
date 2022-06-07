@@ -80,18 +80,20 @@ namespace Spyder::Vulkan {
 
 		auto vertexBinding = Vertex::getBindingDescriptions();
 		std::vector<VkVertexInputBindingDescription> bindingDescriptions(1);
-		bindingDescriptions[0].binding = vertexBinding.binding;
-		bindingDescriptions[0].stride = vertexBinding.stride;
-		bindingDescriptions[0].inputRate = vertexBinding.inputRate;
+		for (int i = 0; i < bindingDescriptions.size(); i++) {
+			bindingDescriptions[i].binding = vertexBinding[i].binding;
+			bindingDescriptions[i].stride = vertexBinding[i].stride;
+			bindingDescriptions[i].inputRate = static_cast<VkVertexInputRate>(vertexBinding[i].inputRate);
+		}
 
 		auto vertexAttributes = Vertex::getAttributeDescriptions();
 		std::vector<VkVertexInputAttributeDescription> attributeDescriptions{};
-		for (auto & vertexAttribute : vertexAttributes) {
+		for (auto &vertexAttribute : vertexAttributes) {
 			attributeDescriptions.push_back({vertexAttribute.location, vertexAttribute.binding, static_cast<VkFormat>(vertexAttribute.format), vertexAttribute.offset});
 		}
 
 		configInfo.bindingDescriptions = bindingDescriptions;
-		configInfo.attributeDescriptions =attributeDescriptions;
+		configInfo.attributeDescriptions = attributeDescriptions;
 	}
 
 	void Pipeline::createGraphicsPipeline(const std::vector<uint32_t> &vertShaderArray, const std::vector<uint32_t> &fragShaderArray, const PipelineConfigInfo &configInfo) {

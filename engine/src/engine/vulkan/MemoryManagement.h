@@ -7,21 +7,27 @@
 
 namespace Spyder::Vulkan {
 
-		class MemoryManagement {
-		public:
-			MemoryManagement(Instance& instance, Device& device);
-			~MemoryManagement() = default;
+	class MemoryManagement {
+	public:
+		MemoryManagement(Instance &instance, Device &device);
+		~MemoryManagement() = default;
 
-			MemoryManagement(const MemoryManagement &) = delete;
-			MemoryManagement &operator=(const MemoryManagement &) = delete;
+		MemoryManagement(const MemoryManagement &) = delete;
+		MemoryManagement &operator=(const MemoryManagement &) = delete;
 
-			void init();
+		void init();
 
-		private:
-			Instance &r_Instance;
-			Device &r_Device;
+		void createBuffer(VkBuffer buffer, VmaAllocation bufferMemoryAllocation, VkDeviceSize size, VkBufferUsageFlags usage);
+		VkResult mapMemory(VmaAllocation memoryAllocation, void *data);
+		void unmapMemory(VmaAllocation memoryAllocation);
+		VkResult flushMemory(VmaAllocation memoryAllocation, VkDeviceSize offset, VkDeviceSize size);
+		VkResult invalidateMemory(VmaAllocation memoryAllocation, VkDeviceSize offset, VkDeviceSize size);
 
-			VmaAllocator m_Allocator;
-		};
+	private:
+		Instance &r_Instance;
+		Device &r_Device;
 
-	} // Vulkan
+		VmaAllocator m_Allocator{};
+	};
+
+} // Vulkan

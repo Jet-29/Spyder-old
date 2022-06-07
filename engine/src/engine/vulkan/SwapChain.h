@@ -21,11 +21,11 @@ namespace Spyder::Vulkan {
 		void init(glm::vec2 windowSize);
 		void cleanup();
 
-		VkFramebuffer getFrameBuffer(int index) { return m_SwapChainFramebuffers[index]; }
+		VkFramebuffer getFrameBuffer(uint32_t index) { return m_SwapChainFramebuffers[index]; }
 
 		VkRenderPass getRenderPass() { return m_RenderPass; }
 
-		VkImageView getImageView(int index) { return m_SwapChainImageViews[index]; }
+		VkImageView getImageView(uint32_t index) { return m_SwapChainImageViews[index]; }
 
 		size_t imageCount() { return m_SwapChainImages.size(); }
 

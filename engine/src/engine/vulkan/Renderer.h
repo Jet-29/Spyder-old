@@ -5,6 +5,9 @@
 #include "SwapChain.h"
 #include "CommandPool.h"
 #include "MemoryManagement.h"
+#include "engine/vulkan/renderers/MeshRenderer.h"
+#include "engine/vulkan/descriptors/DescriptorWriter.h"
+#include "Buffer.h"
 
 namespace Spyder::Vulkan {
 
@@ -24,6 +27,7 @@ namespace Spyder::Vulkan {
 		void createCommandBuffers();
 		void freeCommandBuffers();
 		void recreateSwapChain();
+		void createDescriptors();
 
 		void beginFrame();
 		void endFrame();
@@ -37,6 +41,11 @@ namespace Spyder::Vulkan {
 		MemoryManagement m_MemoryManager{m_Instance, m_Device};
 		CommandPool m_CommandPool{m_Device};
 		SwapChain m_SwapChain{m_Device, m_Surface};
+		ShaderCache m_ShaderCache{};
+		MeshRenderer m_MeshRenderer{m_Device, m_ShaderCache};
+
+		std::unique_ptr<DescriptorSetLayout> p_DescriptorSetLayout;
+		std::vector<Buffer> uboBuffers{};
 
 		std::vector<VkCommandBuffer> m_CommandBuffers;
 		uint32_t m_CurrentImageIndex{0};

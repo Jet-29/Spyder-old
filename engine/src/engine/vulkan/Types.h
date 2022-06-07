@@ -20,7 +20,7 @@ namespace Spyder::Vulkan {
 	};
 
 	struct FrameInfo {
-		int frameIndex;
+		uint32_t frameIndex;
 		float frameTime;
 		VkCommandBuffer commandBuffer;
 		// todo:: add camera
@@ -31,6 +31,11 @@ namespace Spyder::Vulkan {
 	struct PushConstantData {
 		glm::mat4 modelMatrix{1.0f};
 		glm::mat4 AdditionalMatrix{1.0f};
+	};
+
+	struct UBO {
+		glm::mat4 projection{1.0f};
+		glm::mat4 view{1.0f};
 	};
 
 	struct PipelineConfigInfo {

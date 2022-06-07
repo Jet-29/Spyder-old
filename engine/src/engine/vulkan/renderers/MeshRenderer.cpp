@@ -11,20 +11,20 @@ namespace Spyder::Vulkan {
 
 	void MeshRenderer::render(FrameInfo &frameInfo) {
 		m_Pipeline.bind(frameInfo.commandBuffer);
-
 		vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_PipelineLayout, 0, 1, &frameInfo.DescriptorSet, 0, nullptr);
+		vkCmdDraw(frameInfo.commandBuffer, 3, 1, 0, 0);
 
-		for (auto &kv : frameInfo.gameObjects) {
-			auto &obj = kv.second;
-			if (obj.m_Mesh.getUniqueVertices().size() == 0) continue;
-			PushConstantData push{};
-			push.modelMatrix = obj.m_Transform.mat4();
-
-			vkCmdPushConstants(frameInfo.commandBuffer, m_PipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(PushConstantData), &push);
-
-			obj.m_Mesh->bind(frameInfo.commandBuffer);
-			obj.m_Mesh->draw(frameInfo.commandBuffer);
-		}
+//		for (auto &kv : frameInfo.gameObjects) {
+//			auto &obj = kv.second;
+//			if (obj.m_Mesh.getUniqueVertices().size() == 0) continue;
+//			PushConstantData push{};
+//			push.modelMatrix = obj.m_Transform.mat4();
+//
+//			vkCmdPushConstants(frameInfo.commandBuffer, m_PipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(PushConstantData), &push);
+//
+//			obj.m_Mesh->bind(frameInfo.commandBuffer);
+//			obj.m_Mesh->draw(frameInfo.commandBuffer);
+//		}
 	}
 
 	void MeshRenderer::createPipelineLayout(VkDescriptorSetLayout globalSetLayout) {

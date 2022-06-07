@@ -7,13 +7,15 @@
 namespace Spyder {
 	class Engine {
 	public:
-		Engine() = default;
+		Engine();
 		~Engine() = default;
 		Engine(const Engine &) = delete;
 		Engine &operator=(const Engine &) = delete;
 
 		void init();
 		void display();
+
+		bool shouldClose() { return m_Window.shouldClose(); }
 
 	private:
 		Window m_Window{};
