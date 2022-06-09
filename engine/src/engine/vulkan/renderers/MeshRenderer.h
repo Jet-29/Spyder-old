@@ -6,27 +6,27 @@
 
 namespace Spyder::Vulkan {
 
-		class MeshRenderer {
-		public:
-			MeshRenderer(Device &device, ShaderCache &shaderCache);
-			~MeshRenderer() = default;
+	class MeshRenderer {
+	public:
+		MeshRenderer(Device &device, ShaderCache &shaderCache);
+		~MeshRenderer() = default;
 
-			MeshRenderer(const MeshRenderer &) = delete;
-			MeshRenderer &operator=(const MeshRenderer &) = delete;
+		MeshRenderer(const MeshRenderer &) = delete;
+		MeshRenderer &operator=(const MeshRenderer &) = delete;
 
-			void init(VkRenderPass renderPass, VkDescriptorSetLayout descriptorSetLayout);
+		void init(VkRenderPass renderPass, VkDescriptorSetLayout descriptorSetLayout);
 
-			void render(FrameInfo &frameInfo);
-		private:
-			void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);
-			void createPipeline(VkRenderPass renderPass);
+		void render(FrameInfo &frameInfo);
+	private:
+		void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);
+		void createPipeline(VkRenderPass renderPass);
 
-			Device &r_Device;
-			Pipeline m_Pipeline{r_Device};
+		Device &r_Device;
+		Pipeline m_Pipeline{r_Device};
 
-			ShaderCache &r_ShaderCache;
+		ShaderCache &r_ShaderCache;
 
-			VkPipelineLayout m_PipelineLayout{};
-		};
+		VkPipelineLayout m_PipelineLayout{};
+	};
 
-	} // Vulkan
+} // Vulkan

@@ -14,8 +14,8 @@ namespace Spyder {
 
 		void loadModel(std::vector<Vertex> vertices);
 
-		std::vector<Vertex>& getUniqueVertices();
-		std::vector<uint32_t>& getUniqueIndices();
+		std::vector<Vertex> &getUniqueVertices();
+		std::vector<uint32_t> &getUniqueIndices();
 
 	private:
 		std::vector<Vertex> m_AllVertices{};

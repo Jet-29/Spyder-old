@@ -9,7 +9,7 @@ namespace Spyder::Vulkan {
 
 		auto &bindingDescription = r_SetLayout.m_Bindings[binding];
 
-		if(bindingDescription.descriptorCount != 1)
+		if (bindingDescription.descriptorCount != 1)
 			SPYDER_CORE_ERROR("Binding single descriptor info, but binding expects multiple, {}", binding);
 
 		VkWriteDescriptorSet write{};
@@ -29,7 +29,7 @@ namespace Spyder::Vulkan {
 
 		auto &bindingDescription = r_SetLayout.m_Bindings[binding];
 
-		if(bindingDescription.descriptorCount != 1)
+		if (bindingDescription.descriptorCount != 1)
 			SPYDER_CORE_ERROR("Binding single descriptor info, but binding expects multiple, {}", binding);
 
 		VkWriteDescriptorSet write{};

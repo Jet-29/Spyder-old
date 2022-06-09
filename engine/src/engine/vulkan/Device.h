@@ -19,6 +19,7 @@ namespace Spyder::Vulkan {
 		void cleanup();
 
 		VkDevice getDevice() { return m_Device; }
+
 		VkPhysicalDevice getPhysicalDevice() { return m_PhysicalDevice; }
 
 		VkQueue getGraphicsQueue() { return m_GraphicsQueue; }

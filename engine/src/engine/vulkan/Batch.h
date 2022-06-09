@@ -2,8 +2,8 @@
 
 namespace Spyder::Vulkan {
 
-		class Batch {
+	class Batch {
 
-		};
+	};
 
-	} // Vulkan
+} // Vulkan

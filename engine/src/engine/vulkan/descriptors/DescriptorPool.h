@@ -3,39 +3,40 @@
 #include "engine/vulkan/Device.h"
 
 namespace Spyder::Vulkan {
-		class DescriptorPool {
+	class DescriptorPool {
+	public:
+		class Builder {
 		public:
-			class Builder {
-			public:
-				Builder(Device &device);
+			Builder(Device &device);
 
-				Builder &addPoolSize(VkDescriptorType descriptorType, uint32_t count);
-				Builder &setPoolFlags(VkDescriptorPoolCreateFlags flags);
-				Builder &setMaxSets(uint32_t count);
-				[[nodiscard]] std::unique_ptr<DescriptorPool> build() const;
-
-			private:
-				Device &r_Device;
-				std::vector<VkDescriptorPoolSize> poolSizes{};
-				uint32_t maxSets = 1000;
-				VkDescriptorPoolCreateFlags poolFlags = 0;
-			};
-			DescriptorPool(Device &device, uint32_t maxSets, VkDescriptorPoolCreateFlags poolFlags, const std::vector<VkDescriptorPoolSize> &poolSizes);
-			~DescriptorPool();
-
-			DescriptorPool(const DescriptorPool &) = delete;
-			DescriptorPool &operator=(const DescriptorPool &) = delete;
-
-
-			bool allocateDescriptor(VkDescriptorSetLayout descriptorSetLayout, VkDescriptorSet &descriptor) const;
-			void freeDescriptors(std::vector<VkDescriptorSet> &descriptors) const;
-			void resetPool();
+			Builder &addPoolSize(VkDescriptorType descriptorType, uint32_t count);
+			Builder &setPoolFlags(VkDescriptorPoolCreateFlags flags);
+			Builder &setMaxSets(uint32_t count);
+			[[nodiscard]] std::unique_ptr<DescriptorPool> build() const;
 
 		private:
 			Device &r_Device;
-			VkDescriptorPool m_DescriptorPool{};
-
-			friend class DescriptorWriter;
+			std::vector<VkDescriptorPoolSize> poolSizes{};
+			uint32_t maxSets = 1000;
+			VkDescriptorPoolCreateFlags poolFlags = 0;
 		};
 
-	} // Vulkan
+		DescriptorPool(Device &device, uint32_t maxSets, VkDescriptorPoolCreateFlags poolFlags, const std::vector<VkDescriptorPoolSize> &poolSizes);
+		~DescriptorPool();
+
+		DescriptorPool(const DescriptorPool &) = delete;
+		DescriptorPool &operator=(const DescriptorPool &) = delete;
+
+
+		bool allocateDescriptor(VkDescriptorSetLayout descriptorSetLayout, VkDescriptorSet &descriptor) const;
+		void freeDescriptors(std::vector<VkDescriptorSet> &descriptors) const;
+		void resetPool();
+
+	private:
+		Device &r_Device;
+		VkDescriptorPool m_DescriptorPool{};
+
+		friend class DescriptorWriter;
+	};
+
+} // Vulkan

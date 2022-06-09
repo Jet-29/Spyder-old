@@ -20,11 +20,11 @@ namespace Spyder {
 		}
 	}
 
-	std::vector<Vertex>& Mesh::getUniqueVertices() {
+	std::vector<Vertex> &Mesh::getUniqueVertices() {
 		return m_UniqueVertices;
 	}
 
-	std::vector<uint32_t>& Mesh::getUniqueIndices() {
+	std::vector<uint32_t> &Mesh::getUniqueIndices() {
 		return m_Indices;
 	}
 } // Spyder
