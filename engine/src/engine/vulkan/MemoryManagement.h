@@ -3,6 +3,7 @@
 #include "Instance.h"
 #include "Device.h"
 
+
 #include "MemoryAllocator.h"
 
 namespace Spyder::Vulkan {
@@ -17,11 +18,11 @@ namespace Spyder::Vulkan {
 
 		void init();
 
-		void createBuffer(VkBuffer buffer, VmaAllocation bufferMemoryAllocation, VkDeviceSize size, VkBufferUsageFlags usage);
-		VkResult mapMemory(VmaAllocation memoryAllocation, void *data);
-		void unmapMemory(VmaAllocation memoryAllocation);
-		VkResult flushMemory(VmaAllocation memoryAllocation, VkDeviceSize offset, VkDeviceSize size);
-		VkResult invalidateMemory(VmaAllocation memoryAllocation, VkDeviceSize offset, VkDeviceSize size);
+		void createBuffer(VkBuffer &buffer, VmaAllocation &bufferMemoryAllocation, VkDeviceSize size, VkBufferUsageFlags usage);
+		VkResult mapMemory(VmaAllocation &memoryAllocation, void **data);
+		void unmapMemory(VmaAllocation &memoryAllocation);
+		VkResult flushMemory(VmaAllocation &memoryAllocation, VkDeviceSize offset, VkDeviceSize size);
+		VkResult invalidateMemory(VmaAllocation &memoryAllocation, VkDeviceSize offset, VkDeviceSize size);
 
 	private:
 		Instance &r_Instance;

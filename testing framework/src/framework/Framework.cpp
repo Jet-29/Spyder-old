@@ -5,7 +5,6 @@ Framework::Framework(int width, int height, const char *title) {
 }
 
 void Framework::runGameLoop() {
-	while (!engine.shouldClose()) {
+
 		engine.display();
-	}
 }

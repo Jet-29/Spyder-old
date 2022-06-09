@@ -11,7 +11,7 @@ namespace Spyder::Vulkan {
 
 	void MeshRenderer::render(FrameInfo &frameInfo) {
 		m_Pipeline.bind(frameInfo.commandBuffer);
-		vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_PipelineLayout, 0, 1, &frameInfo.DescriptorSet, 0, nullptr);
+		vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_PipelineLayout, 0, 1, &frameInfo.descriptorSet, 0, nullptr);
 		vkCmdDraw(frameInfo.commandBuffer, 3, 1, 0, 0);
 
 //		for (auto &kv : frameInfo.gameObjects) {

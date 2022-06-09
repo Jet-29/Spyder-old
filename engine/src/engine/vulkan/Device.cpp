@@ -3,7 +3,9 @@
 #include <set>
 
 namespace Spyder::Vulkan {
-	Device::Device(Instance &instance, Surface &surface) : r_Instance{instance}, r_Surface{surface} {}
+	Device::Device(Instance &instance, Surface &surface) : r_Instance{instance}, r_Surface{surface} {
+
+	}
 
 	void Device::init() {
 		SPYDER_CORE_TRACE("Initializing Device...");

@@ -1,5 +1,7 @@
 #pragma once
 
+// Client log macros
+
 #include "engine/core/Log.h"
 #include "engine/core/Types.h"
 

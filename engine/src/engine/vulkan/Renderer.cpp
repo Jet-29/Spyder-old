@@ -13,7 +13,7 @@ namespace Spyder::Vulkan {
 		m_SwapChain.init(r_Window.getWindowExtent());
 		m_ShaderCache.init();
 		createDescriptors();
-		m_MeshRenderer.init(m_SwapChain.getRenderPass(), p_DescriptorSetLayout->getDescriptorSetLayout());
+		m_MeshRenderer.init(m_SwapChain.getRenderPass(), p_GlobalUBODescriptorSetLayout->getDescriptorSetLayout());
 		createCommandBuffers();
 		SPYDER_CORE_TRACE("Vulkan render initialized");
 	}
@@ -130,25 +130,26 @@ namespace Spyder::Vulkan {
 	}
 
 	void Renderer::createDescriptors() {
-		for (int i = 0; i < SwapChain::MAX_FRAMES_IN_FLIGHT; i++) {
-			uboBuffers.push_back(Buffer(m_Device, m_MemoryManager));
-			uboBuffer.createBuffer(sizeof(UBO), 1, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
-			uboBuffer.map();
+		auto p_GlobalUBOPool = DescriptorPool::Builder(m_Device).setMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT).addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, SwapChain::MAX_FRAMES_IN_FLIGHT).build();
+
+		for (auto &uboBuffer : p_GlobalUBOBuffers) {
+			uboBuffer = std::make_unique<Buffer>(m_Device, m_MemoryManager);
+			uboBuffer->createBuffer(sizeof(UBO), 1, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT);
+			uboBuffer->map();
 		}
 
-		auto globalSetLayout = DescriptorSetLayout::Builder(m_Device).addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS).build();
+		p_GlobalUBODescriptorSetLayout = DescriptorSetLayout::Builder(m_Device).addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS).build();
 
-		std::vector<VkDescriptorSet> globalDescriptorSets(SwapChain::MAX_FRAMES_IN_FLIGHT);
-		for (int j = 0; j < globalDescriptorSets.size(); ++j) {
-			auto bufferInfo = uboBuffers[j]->descriptorInfo();
-			lve_descriptor_writer(*globalSetLayout, *globalPool).writeBuffer(0, &bufferInfo).build(globalDescriptorSets[j]);
+		for (int i = 0; i < p_GlobalUBODescriptorSets.size(); ++i) {
+			auto bufferInfo = p_GlobalUBOBuffers[i]->descriptorInfo();
+			DescriptorWriter(*p_GlobalUBODescriptorSetLayout, *p_GlobalUBOPool).writeBuffer(0, &bufferInfo).build(p_GlobalUBODescriptorSets[i]);
 		}
 	}
 
 	void Renderer::render() {
 		beginFrame();
 		GameObject::map steven{};
-		FrameInfo frameInfo{m_CurrentFrameIndex, 0.1f, m_CommandBuffers[m_CurrentFrameIndex], {}, steven};
+		FrameInfo frameInfo{m_CurrentFrameIndex, 0.1f, m_CommandBuffers[m_CurrentFrameIndex], p_GlobalUBODescriptorSets[m_CurrentFrameIndex], steven};
 		// update stuff
 
 		beginSwapChainRenderPass();

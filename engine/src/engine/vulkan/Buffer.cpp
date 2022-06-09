@@ -69,6 +69,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Buffer::createBuffer(VkDeviceSize instanceSize, uint32_t instanceCount, VkBufferUsageFlags usageFlags) {
+		SPYDER_CORE_TRACE("Device minimum buffer offset: {}", r_Device.m_Properties.limits.minUniformBufferOffsetAlignment);
 		createBuffer(instanceSize, instanceCount, usageFlags, r_Device.m_Properties.limits.minUniformBufferOffsetAlignment);
 	}
 } // Vulkan

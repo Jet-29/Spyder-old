@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include <iostream>
 
 namespace Spyder {
 	Engine::Engine() {
