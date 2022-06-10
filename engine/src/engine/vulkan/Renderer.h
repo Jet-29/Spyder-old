@@ -44,7 +44,7 @@ namespace Spyder::Vulkan {
 		ShaderCache m_ShaderCache{};
 		MeshRenderer m_MeshRenderer{m_Device, m_ShaderCache};
 
-		std::unique_ptr<DescriptorPool> p_GlobalOBUPool{};
+		std::unique_ptr<DescriptorPool> p_GlobalUBOPool{};
 		std::unique_ptr<DescriptorSetLayout> p_GlobalUBODescriptorSetLayout{};
 		std::vector<std::unique_ptr<Buffer>> p_GlobalUBOBuffers{SwapChain::MAX_FRAMES_IN_FLIGHT};
 		std::vector<VkDescriptorSet> p_GlobalUBODescriptorSets{SwapChain::MAX_FRAMES_IN_FLIGHT};

@@ -16,6 +16,9 @@ namespace Spyder::Vulkan {
 
 		void init(VkRenderPass renderPass, VkDescriptorSetLayout descriptorSetLayout);
 
+		void bind(Mesh &mesh);
+		void draw(Mesh &mesh);
+
 		void render(FrameInfo &frameInfo);
 	private:
 		void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);

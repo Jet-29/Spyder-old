@@ -130,7 +130,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Renderer::createDescriptors() {
-		auto p_GlobalUBOPool = DescriptorPool::Builder(m_Device).setMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT).addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, SwapChain::MAX_FRAMES_IN_FLIGHT).build();
+		p_GlobalUBOPool = DescriptorPool::Builder(m_Device).setMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT).addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, SwapChain::MAX_FRAMES_IN_FLIGHT).build();
 
 		for (auto &uboBuffer : p_GlobalUBOBuffers) {
 			uboBuffer = std::make_unique<Buffer>(m_Device, m_MemoryManager);

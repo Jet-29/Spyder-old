@@ -11,6 +11,7 @@ namespace Spyder::Vulkan {
 
 	void MeshRenderer::render(FrameInfo &frameInfo) {
 		m_Pipeline.bind(frameInfo.commandBuffer);
+
 		vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_PipelineLayout, 0, 1, &frameInfo.descriptorSet, 0, nullptr);
 		vkCmdDraw(frameInfo.commandBuffer, 3, 1, 0, 0);
 
@@ -56,5 +57,20 @@ namespace Spyder::Vulkan {
 		auto fragShader = r_ShaderCache.getShader(Shaders::FragmentMeshShader, "Mesh Fragment Shader", shaderc_fragment_shader);
 
 		m_Pipeline.init(vertShader, fragShader, pipelineConfig);
+	}
+
+	void MeshRenderer::bind(Mesh &mesh) {
+		Buffer myBuffer{r_Device};
+		VkBuffer buffers[] = {vertexBuffer->getBuffer()};
+		VkDeviceSize offsets[] = {0};
+		vkCmdBindVertexBuffers(commandBuffer, 0, 1, buffers, offsets);
+
+		if (hasIndexBuffer) {
+			vkCmdBindIndexBuffer(commandBuffer, indexBuffer->getBuffer(), 0, VK_INDEX_TYPE_UINT32);
+		}
+	}
+
+	void MeshRenderer::draw(Mesh &mesh) {
+
 	}
 } // Vulkan
