@@ -11,10 +11,14 @@ namespace Spyder {
 	public:
 		GameObject(const GameObject &) = delete;
 		GameObject &operator=(const GameObject) = delete;
+		GameObject(GameObject &&) = default;
+		GameObject &operator=(GameObject &&) = default;
 
 		static GameObject createGameObject();
 		using id_t = unsigned int;
 		using map = std::unordered_map<id_t, GameObject>;
+
+		void draw();
 
 		[[nodiscard]] id_t getId() const;
 

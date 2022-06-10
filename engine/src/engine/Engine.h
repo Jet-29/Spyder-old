@@ -17,8 +17,12 @@ namespace Spyder {
 
 		bool shouldClose() { return m_Window.shouldClose(); }
 
+		static GameObject createGameObject();
+		void addToDrawList(GameObject &obj);
+
 	private:
 		Window m_Window{};
 		Vulkan::Renderer m_Renderer{m_Window};
+		GameObject::map m_GameObjects{};
 	};
 } // Spyder

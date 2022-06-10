@@ -22,8 +22,9 @@ layout(push_constant) uniform Push {
 } push;
 
 void main() {
-	vec4 positionWorld = push.modelMatrix * vec4(position, 1.0);
-    gl_Position = ubo.projection * ubo.view * positionWorld;
+//	vec4 positionWorld = push.modelMatrix * vec4(position, 1.0);
+//    gl_Position = ubo.projection * ubo.view * positionWorld;
+	gl_Position = vec4(position.xy, 0.0, 1.0);
 	fragColor = color;
 }
 )";

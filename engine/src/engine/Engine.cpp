@@ -1,5 +1,4 @@
 #include "Engine.h"
-#include <iostream>
 
 namespace Spyder {
 	Engine::Engine() {
@@ -12,6 +11,14 @@ namespace Spyder {
 	}
 
 	void Engine::display() {
-		m_Renderer.render();
+		m_Renderer.render(m_GameObjects);
+	}
+
+	GameObject Engine::createGameObject() {
+		return GameObject::createGameObject();
+	}
+
+	void Engine::addToDrawList(GameObject &obj) {
+		m_GameObjects.emplace(obj.getId(), std::move(obj));
 	}
 } // Spyder

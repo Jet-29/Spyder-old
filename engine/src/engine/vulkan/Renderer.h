@@ -20,8 +20,7 @@ namespace Spyder::Vulkan {
 		Renderer &operator=(const Renderer &) = delete;
 
 		void init();
-
-		void render();
+		void render(GameObject::map &gameObjects);
 
 	private:
 		void createCommandBuffers();
@@ -42,7 +41,7 @@ namespace Spyder::Vulkan {
 		CommandPool m_CommandPool{m_Device};
 		SwapChain m_SwapChain{m_Device, m_Surface};
 		ShaderCache m_ShaderCache{};
-		MeshRenderer m_MeshRenderer{m_Device, m_ShaderCache};
+		MeshRenderer m_MeshRenderer{m_Device, m_MemoryManager, m_ShaderCache};
 
 		std::unique_ptr<DescriptorPool> p_GlobalUBOPool{};
 		std::unique_ptr<DescriptorSetLayout> p_GlobalUBODescriptorSetLayout{};

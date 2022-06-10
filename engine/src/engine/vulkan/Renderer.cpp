@@ -146,10 +146,9 @@ namespace Spyder::Vulkan {
 		}
 	}
 
-	void Renderer::render() {
+	void Renderer::render(GameObject::map &gameObjects) {
 		beginFrame();
-		GameObject::map steven{};
-		FrameInfo frameInfo{m_CurrentFrameIndex, 0.1f, m_CommandBuffers[m_CurrentFrameIndex], p_GlobalUBODescriptorSets[m_CurrentFrameIndex], steven};
+		FrameInfo frameInfo{m_CurrentFrameIndex, 0.1f, m_CommandBuffers[m_CurrentFrameIndex], p_GlobalUBODescriptorSets[m_CurrentFrameIndex], gameObjects};
 		// update stuff
 
 		beginSwapChainRenderPass();

@@ -11,4 +11,8 @@ namespace Spyder {
 	GameObject::id_t GameObject::getId() const {
 		return m_id;
 	}
+
+	void GameObject::draw() {
+
+	}
 } // Spyder

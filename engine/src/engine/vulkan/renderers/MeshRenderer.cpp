@@ -1,8 +1,9 @@
 #include "MeshRenderer.h"
 #include "engine/shaders/Shaders.h"
+#include "engine/vulkan/Batch.h"
 
 namespace Spyder::Vulkan {
-	MeshRenderer::MeshRenderer(Device &device, ShaderCache &shaderCache) : r_Device{device}, r_ShaderCache{shaderCache} {}
+	MeshRenderer::MeshRenderer(Device &device, MemoryManagement &memManager, ShaderCache &shaderCache) : r_Device{device}, r_MemoryManager{memManager}, r_ShaderCache{shaderCache} {}
 
 	void MeshRenderer::init(VkRenderPass renderPass, VkDescriptorSetLayout descriptorSetLayout) {
 		createPipelineLayout(descriptorSetLayout);
@@ -11,21 +12,22 @@ namespace Spyder::Vulkan {
 
 	void MeshRenderer::render(FrameInfo &frameInfo) {
 		m_Pipeline.bind(frameInfo.commandBuffer);
-
 		vkCmdBindDescriptorSets(frameInfo.commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_PipelineLayout, 0, 1, &frameInfo.descriptorSet, 0, nullptr);
-		vkCmdDraw(frameInfo.commandBuffer, 3, 1, 0, 0);
 
-//		for (auto &kv : frameInfo.gameObjects) {
-//			auto &obj = kv.second;
-//			if (obj.m_Mesh.getUniqueVertices().size() == 0) continue;
-//			PushConstantData push{};
-//			push.modelMatrix = obj.m_Transform.mat4();
-//
-//			vkCmdPushConstants(frameInfo.commandBuffer, m_PipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(PushConstantData), &push);
-//
-//			obj.m_Mesh->bind(frameInfo.commandBuffer);
-//			obj.m_Mesh->draw(frameInfo.commandBuffer);
-//		}
+		for (auto &kv : frameInfo.gameObjects) {
+			auto &obj = kv.second;
+			if (obj.m_Mesh.getUniqueVertices().empty()) continue;
+			PushConstantData push{};
+			push.modelMatrix = obj.m_Transform.mat4();
+
+			vkCmdPushConstants(frameInfo.commandBuffer, m_PipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(PushConstantData), &push);
+
+			Batch objectBatch{r_Device, r_MemoryManager};
+			objectBatch.addToBatch(obj.m_Mesh.getUniqueVertices(), obj.m_Mesh.getUniqueIndices());
+			objectBatch.buildBatch();
+			objectBatch.bind(frameInfo.commandBuffer);
+			objectBatch.draw(frameInfo.commandBuffer);
+		}
 	}
 
 	void MeshRenderer::createPipelineLayout(VkDescriptorSetLayout globalSetLayout) {
@@ -57,20 +59,5 @@ namespace Spyder::Vulkan {
 		auto fragShader = r_ShaderCache.getShader(Shaders::FragmentMeshShader, "Mesh Fragment Shader", shaderc_fragment_shader);
 
 		m_Pipeline.init(vertShader, fragShader, pipelineConfig);
-	}
-
-	void MeshRenderer::bind(Mesh &mesh) {
-		Buffer myBuffer{r_Device};
-		VkBuffer buffers[] = {vertexBuffer->getBuffer()};
-		VkDeviceSize offsets[] = {0};
-		vkCmdBindVertexBuffers(commandBuffer, 0, 1, buffers, offsets);
-
-		if (hasIndexBuffer) {
-			vkCmdBindIndexBuffer(commandBuffer, indexBuffer->getBuffer(), 0, VK_INDEX_TYPE_UINT32);
-		}
-	}
-
-	void MeshRenderer::draw(Mesh &mesh) {
-
 	}
 } // Vulkan

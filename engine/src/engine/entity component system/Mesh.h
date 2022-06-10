@@ -11,11 +11,13 @@ namespace Spyder {
 
 		Mesh(const Mesh &) = delete;
 		Mesh &operator=(const Mesh &) = delete;
+		Mesh(Mesh &&) = default;
+		Mesh &operator=(Mesh &&) = default;
 
 		void loadModel(std::vector<Vertex> vertices);
 
-		std::vector<Vertex> &getUniqueVertices();
-		std::vector<uint32_t> &getUniqueIndices();
+		[[nodiscard]] std::vector<Vertex> &getUniqueVertices();
+		[[nodiscard]] std::vector<uint32_t> &getUniqueIndices();
 
 	private:
 		std::vector<Vertex> m_AllVertices{};

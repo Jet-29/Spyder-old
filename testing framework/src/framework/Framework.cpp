@@ -5,6 +5,10 @@ Framework::Framework(int width, int height, const char *title) {
 }
 
 void Framework::runGameLoop() {
-
-	engine.display();
+	Spyder::GameObject myTriangle = Spyder::Engine::createGameObject();
+	myTriangle.m_Mesh.loadModel({{{-0.5f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}}, {{0.0f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}, {{0.5f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}}});
+	engine.addToDrawList(myTriangle);
+	while (!engine.shouldClose()) {
+		engine.display();
+	}
 }
