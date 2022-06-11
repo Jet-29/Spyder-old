@@ -160,4 +160,10 @@ namespace Spyder::Vulkan {
 
 		VK_CHECK(vkCreateShaderModule(r_Device.getDevice(), &createInfo, nullptr, shaderModule));
 	}
+
+	void Pipeline::cleanup() {
+		vkDestroyShaderModule(r_Device.getDevice(), m_VertShaderModule, nullptr);
+		vkDestroyShaderModule(r_Device.getDevice(), m_FragShaderModule, nullptr);
+		vkDestroyPipeline(r_Device.getDevice(), m_GraphicsPipeline, nullptr);
+	}
 } // Vulkan

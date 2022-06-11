@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Device.h"
+#include "MemoryManagement.h"
 
 #include <glm/glm.hpp>
 #include <memory>
@@ -9,9 +10,8 @@ namespace Spyder::Vulkan {
 
 	class SwapChain {
 	public:
-		static constexpr int MAX_FRAMES_IN_FLIGHT = 3;
-		SwapChain(Device &device, Surface &surface);
-		SwapChain(Device &device, Surface &surface, std::shared_ptr<SwapChain> previous);
+		SwapChain(Device &device, Surface &surface, MemoryManagement &memManager);
+		SwapChain(Device &device, Surface &surface, MemoryManagement &memManager, std::shared_ptr<SwapChain> previous);
 
 		~SwapChain() = default;
 
@@ -62,13 +62,14 @@ namespace Spyder::Vulkan {
 		VkRenderPass m_RenderPass{};
 
 		std::vector<VkImage> m_DepthImages{};
-		std::vector<VkDeviceMemory> m_DepthImageMemories{};
+		std::vector<VmaAllocation> m_DepthImageMemories{};
 		std::vector<VkImageView> m_DepthImageViews{};
 		std::vector<VkImage> m_SwapChainImages{};
 		std::vector<VkImageView> m_SwapChainImageViews{};
 
 		Device &r_Device;
 		Surface &r_Surface;
+		MemoryManagement &r_MemoryManager;
 		glm::vec2 m_WindowSize{};
 		VkExtent2D m_WindowExtent{};
 

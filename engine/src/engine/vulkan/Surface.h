@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vulkan/vulkan.hpp>
-#include "engine/core/Window.h"
+#include "engine/window/Window.h"
 #include "engine/vulkan/Instance.h"
 
 namespace Spyder::Vulkan {
@@ -15,6 +15,7 @@ namespace Spyder::Vulkan {
 		Surface &operator=(const Surface &) = delete;
 
 		void init();
+		void cleanup();
 
 		VkSurfaceKHR getSurface() { return m_Surface; }
 

@@ -65,4 +65,8 @@ namespace Spyder::Vulkan {
 		SPYDER_CORE_TRACE("Resetting descriptor...");
 		vkResetDescriptorPool(r_Device.getDevice(), m_DescriptorPool, 0);
 	}
+
+	void DescriptorPool::cleanup() {
+		vkDestroyDescriptorPool(r_Device.getDevice(), m_DescriptorPool, nullptr);
+	}
 } // Vulkan

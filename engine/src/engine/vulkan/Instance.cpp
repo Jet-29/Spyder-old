@@ -116,6 +116,7 @@ namespace Spyder::Vulkan {
 			DestroyDebugUtilsMessengerEXT(m_Instance, m_DebugMessenger, nullptr);
 		}
 		vkDestroyInstance(m_Instance, nullptr);
+		SPYDER_CORE_TRACE("Vulkan instance destroyed");
 	}
 
 	void Instance::createInstance() {

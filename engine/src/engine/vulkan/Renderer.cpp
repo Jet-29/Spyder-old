@@ -18,8 +18,22 @@ namespace Spyder::Vulkan {
 		SPYDER_CORE_TRACE("Vulkan render initialized");
 	}
 
+	void Renderer::cleanup() {
+		m_Device.waitForDevice();
+
+		freeCommandBuffers();
+		deleteDescriptors();
+		m_MeshRenderer.cleanup();
+		m_SwapChain.cleanup();
+		m_CommandPool.cleanup();
+		m_MemoryManager.cleanup();
+		m_Device.cleanup();
+		m_Surface.cleanup();
+		m_Instance.cleanup();
+	}
+
 	void Renderer::createCommandBuffers() {
-		m_CommandBuffers.resize(SwapChain::MAX_FRAMES_IN_FLIGHT);
+		m_CommandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
 
 		VkCommandBufferAllocateInfo allocInfo{};
 		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -41,8 +55,8 @@ namespace Spyder::Vulkan {
 			extent = r_Window.getWindowExtent();
 			glfwWaitEvents();
 		}
-
 		vkDeviceWaitIdle(m_Device.getDevice());
+
 
 		m_SwapChain.cleanup();
 		m_SwapChain.init(extent);
@@ -86,7 +100,7 @@ namespace Spyder::Vulkan {
 		}
 
 		m_IsFrameStarted = false;
-		m_CurrentFrameIndex = (m_CurrentFrameIndex + 1) % SwapChain::MAX_FRAMES_IN_FLIGHT;
+		m_CurrentFrameIndex = (m_CurrentFrameIndex + 1) % MAX_FRAMES_IN_FLIGHT;
 	}
 
 	void Renderer::beginSwapChainRenderPass() {
@@ -130,7 +144,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Renderer::createDescriptors() {
-		p_GlobalUBOPool = DescriptorPool::Builder(m_Device).setMaxSets(SwapChain::MAX_FRAMES_IN_FLIGHT).addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, SwapChain::MAX_FRAMES_IN_FLIGHT).build();
+		p_GlobalUBOPool = DescriptorPool::Builder(m_Device).setMaxSets(MAX_FRAMES_IN_FLIGHT).addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT).build();
 
 		for (auto &uboBuffer : p_GlobalUBOBuffers) {
 			uboBuffer = std::make_unique<Buffer>(m_Device, m_MemoryManager);
@@ -146,9 +160,20 @@ namespace Spyder::Vulkan {
 		}
 	}
 
+	void Renderer::deleteDescriptors() {
+		for (auto &uboBuffer : p_GlobalUBOBuffers) {
+			uboBuffer->cleanup();
+		}
+
+		p_GlobalUBODescriptorSetLayout->cleanup();
+		p_GlobalUBOPool->cleanup();
+	}
+
 	void Renderer::render(GameObject::map &gameObjects) {
 		beginFrame();
 		FrameInfo frameInfo{m_CurrentFrameIndex, 0.1f, m_CommandBuffers[m_CurrentFrameIndex], p_GlobalUBODescriptorSets[m_CurrentFrameIndex], gameObjects};
+		m_MemoryManager.setCurrentIndex(m_CurrentFrameIndex);
+		m_MemoryManager.flush();
 		// update stuff
 
 		beginSwapChainRenderPass();
@@ -159,4 +184,5 @@ namespace Spyder::Vulkan {
 		endSwapChainRenderPass();
 		endFrame();
 	}
+
 } // Vulkan

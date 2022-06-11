@@ -13,6 +13,7 @@ namespace Spyder::Vulkan {
 		Pipeline &operator=(const Pipeline &) = delete;
 
 		void init(const std::vector<uint32_t> &vertShaderArray, const std::vector<uint32_t> &fragShaderArray, const PipelineConfigInfo &configInfo);
+		void cleanup();
 
 		void bind(VkCommandBuffer commandBuffer);
 		static void defaultPipelineConfigInfo(PipelineConfigInfo &configInfo);

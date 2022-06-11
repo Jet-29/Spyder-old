@@ -36,4 +36,8 @@ namespace Spyder::Vulkan {
 	DescriptorSetLayout::~DescriptorSetLayout() {
 		vkDestroyDescriptorSetLayout(r_Device.getDevice(), m_DescriptorSetLayout, nullptr);
 	}
+
+	void DescriptorSetLayout::cleanup() {
+		vkDestroyDescriptorSetLayout(r_Device.getDevice(), m_DescriptorSetLayout, nullptr);
+	}
 } // Vulkan

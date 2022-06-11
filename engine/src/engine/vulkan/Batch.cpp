@@ -44,4 +44,9 @@ namespace Spyder::Vulkan {
 	void Batch::draw(VkCommandBuffer commandBuffer) {
 		vkCmdDrawIndexed(commandBuffer, m_Indices.size(), 1, 0, 0, 0);
 	}
+
+	void Batch::cleanup() {
+		m_VertexBuffer.cleanup();
+		m_IndexBuffer.cleanup();
+	}
 } // Vulkan

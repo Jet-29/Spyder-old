@@ -15,6 +15,7 @@ namespace Spyder::Vulkan {
 
 		void createBuffer(VkDeviceSize instanceSize, uint32_t instanceCount, VkBufferUsageFlags usageFlags, VkDeviceSize minOffsetAlignment);
 		void createBuffer(VkDeviceSize instanceSize, uint32_t instanceCount, VkBufferUsageFlags usageFlags);
+		void cleanup();
 
 		VkResult map();
 		void unmap();

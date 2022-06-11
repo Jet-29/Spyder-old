@@ -71,4 +71,11 @@ namespace Spyder::Vulkan {
 	void Buffer::createBuffer(VkDeviceSize instanceSize, uint32_t instanceCount, VkBufferUsageFlags usageFlags) {
 		createBuffer(instanceSize, instanceCount, usageFlags, r_Device.m_Properties.limits.minUniformBufferOffsetAlignment);
 	}
+
+	void Buffer::cleanup() {
+		if (p_Mapped != nullptr) {
+			r_MemoryManagement.unmapMemory(m_Memory);
+		}
+		r_MemoryManagement.destroyBuffer(m_Buffer, m_Memory);
+	}
 } // Vulkan

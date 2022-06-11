@@ -22,11 +22,14 @@ namespace Spyder::Vulkan {
 
 			vkCmdPushConstants(frameInfo.commandBuffer, m_PipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(PushConstantData), &push);
 
+			// todo: Improve batch handling
 			Batch objectBatch{r_Device, r_MemoryManager};
 			objectBatch.addToBatch(obj.m_Mesh.getUniqueVertices(), obj.m_Mesh.getUniqueIndices());
 			objectBatch.buildBatch();
 			objectBatch.bind(frameInfo.commandBuffer);
 			objectBatch.draw(frameInfo.commandBuffer);
+			objectBatch.clearBatch();
+			objectBatch.cleanup();
 		}
 	}
 
@@ -59,5 +62,10 @@ namespace Spyder::Vulkan {
 		auto fragShader = r_ShaderCache.getShader(Shaders::FragmentMeshShader, "Mesh Fragment Shader", shaderc_fragment_shader);
 
 		m_Pipeline.init(vertShader, fragShader, pipelineConfig);
+	}
+
+	void MeshRenderer::cleanup() {
+		m_Pipeline.cleanup();
+		vkDestroyPipelineLayout(r_Device.getDevice(), m_PipelineLayout, nullptr);
 	}
 } // Vulkan

@@ -14,10 +14,14 @@ namespace Spyder {
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 		glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+		glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
 
 		m_Window = glfwCreateWindow(w, h, title, nullptr, nullptr);
 		glfwSetWindowUserPointer(m_Window, this);
 		glfwSetFramebufferSizeCallback(m_Window, frameBufferResizedCallback);
+
+		m_EventHandler.init(m_Window);
+
 		SPYDER_CORE_TRACE("GLFW initialization complete");
 	}
 
@@ -54,5 +58,21 @@ namespace Spyder {
 		auto window = reinterpret_cast<Window *>(glfwGetWindowUserPointer(openWindow));
 		window->m_FrameBufferResized = true;
 		window->m_WindowSize = {width, height};
+	}
+
+	void Window::lockMouse() {
+		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+
+	void Window::unlockMouse() {
+		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+
+	EventHandler &Window::getEventHandler() {
+		return m_EventHandler;
+	}
+
+	void Window::cleanup() {
+		glfwTerminate();
 	}
 } // Spyder

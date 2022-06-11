@@ -27,7 +27,7 @@ namespace Spyder::Vulkan {
 		DescriptorPool(const DescriptorPool &) = delete;
 		DescriptorPool &operator=(const DescriptorPool &) = delete;
 
-
+		void cleanup();
 		bool allocateDescriptor(VkDescriptorSetLayout descriptorSetLayout, VkDescriptorSet &descriptor) const;
 		void freeDescriptors(std::vector<VkDescriptorSet> &descriptors) const;
 		void resetPool();

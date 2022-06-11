@@ -94,7 +94,7 @@ namespace Spyder::Vulkan {
 		if (r_Instance.enableValidationLayers) {
 			SPYDER_CORE_TRACE("Enabling device specific validationLayers...");
 			createInfo.enabledLayerCount = static_cast<uint32_t>(r_Instance.getValidationLayers().size());
-			createInfo.ppEnabledLayerNames = r_Instance.m_ValidationLayers.data();
+			createInfo.ppEnabledLayerNames = r_Instance.getValidationLayers().data();
 		} else {
 			createInfo.enabledLayerCount = 0;
 		}
@@ -210,25 +210,7 @@ namespace Spyder::Vulkan {
 		return {};
 	}
 
-	void Device::createImageWithInfo(const VkImageCreateInfo &imageInfo, VkMemoryPropertyFlags properties, VkImage &image, VkDeviceMemory &imageMemory) {
-		if (vkCreateImage(m_Device, &imageInfo, nullptr, &image) != VK_SUCCESS) {
-			throw std::runtime_error("failed to create image!");
-		}
-
-		VkMemoryRequirements memRequirements;
-		vkGetImageMemoryRequirements(m_Device, image, &memRequirements);
-
-		VkMemoryAllocateInfo allocInfo{};
-		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-		allocInfo.allocationSize = memRequirements.size;
-		allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, properties);
-
-		if (vkAllocateMemory(m_Device, &allocInfo, nullptr, &imageMemory) != VK_SUCCESS) {
-			throw std::runtime_error("failed to allocate image memory!");
-		}
-
-		if (vkBindImageMemory(m_Device, image, imageMemory, 0) != VK_SUCCESS) {
-			throw std::runtime_error("failed to bind image memory!");
-		}
+	void Device::waitForDevice() {
+		vkDeviceWaitIdle(m_Device);
 	}
 } // Vulkan

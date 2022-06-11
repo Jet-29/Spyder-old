@@ -1,9 +1,9 @@
 #include "SwapChain.h"
 
 namespace Spyder::Vulkan {
-	SwapChain::SwapChain(Device &device, Surface &surface) : r_Device{device}, r_Surface{surface} {}
+	SwapChain::SwapChain(Device &device, Surface &surface, MemoryManagement &memManager) : r_Device{device}, r_Surface{surface}, r_MemoryManager{memManager} {}
 
-	SwapChain::SwapChain(Device &device, Surface &surface, std::shared_ptr<SwapChain> previous) : r_Device{device}, r_Surface{surface}, oldSwapChain{std::move(previous)} {}
+	SwapChain::SwapChain(Device &device, Surface &surface, MemoryManagement &memManager, std::shared_ptr<SwapChain> previous) : r_Device{device}, r_Surface{surface}, r_MemoryManager{memManager}, oldSwapChain{std::move(previous)} {}
 
 	VkFormat SwapChain::findDepthFormat() {
 		return r_Device.findSupportedFormat({VK_FORMAT_D32_SFLOAT, VK_FORMAT_D32_SFLOAT_S8_UINT, VK_FORMAT_D24_UNORM_S8_UINT}, VK_IMAGE_TILING_OPTIMAL, VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT);
@@ -123,6 +123,7 @@ namespace Spyder::Vulkan {
 
 		createInfo.oldSwapchain = oldSwapChain == nullptr ? VK_NULL_HANDLE : oldSwapChain->swapChain;
 
+
 		VK_CHECK(vkCreateSwapchainKHR(r_Device.getDevice(), &createInfo, nullptr, &swapChain));
 
 		vkGetSwapchainImagesKHR(r_Device.getDevice(), swapChain, &imageCount, nullptr);
@@ -181,7 +182,7 @@ namespace Spyder::Vulkan {
 			imageInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 			imageInfo.flags = 0;
 
-			r_Device.createImageWithInfo(imageInfo, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_DepthImages[i], m_DepthImageMemories[i]);
+			r_MemoryManager.createImage(m_DepthImages[i], m_DepthImageMemories[i], imageInfo, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
 			VkImageViewCreateInfo viewInfo{};
 			viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
@@ -193,6 +194,7 @@ namespace Spyder::Vulkan {
 			viewInfo.subresourceRange.levelCount = 1;
 			viewInfo.subresourceRange.baseArrayLayer = 0;
 			viewInfo.subresourceRange.layerCount = 1;
+
 
 			VK_CHECK(vkCreateImageView(r_Device.getDevice(), &viewInfo, nullptr, &m_DepthImageViews[i]));
 		}
@@ -347,6 +349,36 @@ namespace Spyder::Vulkan {
 	}
 
 	void SwapChain::cleanup() {
+		for (auto imageView : m_SwapChainImageViews) {
+			vkDestroyImageView(r_Device.getDevice(), imageView, nullptr);
+		}
 
+		for (auto imageView : m_DepthImageViews) {
+			vkDestroyImageView(r_Device.getDevice(), imageView, nullptr);
+		}
+
+		m_SwapChainImageViews.clear();
+		m_DepthImageViews.clear();
+
+		if (swapChain != nullptr) {
+			vkDestroySwapchainKHR(r_Device.getDevice(), swapChain, nullptr);
+			swapChain = nullptr;
+		}
+
+		for (int i = 0; i < m_DepthImages.size(); i++) {
+			r_MemoryManager.destroyImage(m_DepthImages[i], m_DepthImageMemories[i]);
+		}
+
+		for (auto frameBuffer : m_SwapChainFramebuffers) {
+			vkDestroyFramebuffer(r_Device.getDevice(), frameBuffer, nullptr);
+		}
+
+		vkDestroyRenderPass(r_Device.getDevice(), m_RenderPass, nullptr);
+
+		for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+			vkDestroySemaphore(r_Device.getDevice(), renderFinishedSemaphores[i], nullptr);
+			vkDestroySemaphore(r_Device.getDevice(), imageAvailableSemaphores[i], nullptr);
+			vkDestroyFence(r_Device.getDevice(), inFlightFences[i], nullptr);
+		}
 	}
 } // Vulkan

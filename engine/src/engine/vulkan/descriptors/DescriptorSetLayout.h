@@ -24,6 +24,8 @@ namespace Spyder::Vulkan {
 		DescriptorSetLayout(const DescriptorSetLayout &) = delete;
 		DescriptorSetLayout &operator=(const DescriptorSetLayout &) = delete;
 
+		void cleanup();
+
 		[[nodiscard]] VkDescriptorSetLayout getDescriptorSetLayout() const { return m_DescriptorSetLayout; }
 
 	private:

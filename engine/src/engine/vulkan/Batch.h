@@ -12,6 +12,7 @@ namespace Spyder::Vulkan {
 
 		void addToBatch(std::vector<Vertex> &vertices, std::vector<uint32_t> &indices);
 		void buildBatch();
+		void cleanup();
 		void clearBatch();
 
 		VkBuffer getVertexBuffer();

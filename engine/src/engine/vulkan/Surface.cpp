@@ -8,4 +8,8 @@ namespace Spyder::Vulkan {
 		VK_CHECK(glfwCreateWindowSurface(r_Instance.getInstance(), r_Window.getWindow(), nullptr, &m_Surface));
 		SPYDER_CORE_TRACE("Surface created");
 	}
+
+	void Surface::cleanup() {
+		vkDestroySurfaceKHR(r_Instance.getInstance(), m_Surface, nullptr);
+	}
 } // Vulkan

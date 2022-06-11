@@ -4,6 +4,11 @@
 #include "engine/vulkan/Pipeline.h"
 #include "engine/shaders/ShaderCache.h"
 #include "engine/vulkan/MemoryManagement.h"
+#include "engine/vulkan/Batch.h"
+#include "engine/vulkan/SwapChain.h"
+
+#include <deque>
+#include <functional>
 
 namespace Spyder::Vulkan {
 
@@ -16,6 +21,7 @@ namespace Spyder::Vulkan {
 		MeshRenderer &operator=(const MeshRenderer &) = delete;
 
 		void init(VkRenderPass renderPass, VkDescriptorSetLayout descriptorSetLayout);
+		void cleanup();
 		void render(FrameInfo &frameInfo);
 
 	private:

@@ -21,12 +21,14 @@ namespace Spyder::Vulkan {
 
 		void init();
 		void render(GameObject::map &gameObjects);
+		void cleanup();
 
 	private:
 		void createCommandBuffers();
 		void freeCommandBuffers();
 		void recreateSwapChain();
 		void createDescriptors();
+		void deleteDescriptors();
 
 		void beginFrame();
 		void endFrame();
@@ -39,14 +41,14 @@ namespace Spyder::Vulkan {
 		Device m_Device{m_Instance, m_Surface};
 		MemoryManagement m_MemoryManager{m_Instance, m_Device};
 		CommandPool m_CommandPool{m_Device};
-		SwapChain m_SwapChain{m_Device, m_Surface};
+		SwapChain m_SwapChain{m_Device, m_Surface, m_MemoryManager};
 		ShaderCache m_ShaderCache{};
 		MeshRenderer m_MeshRenderer{m_Device, m_MemoryManager, m_ShaderCache};
 
 		std::unique_ptr<DescriptorPool> p_GlobalUBOPool{};
 		std::unique_ptr<DescriptorSetLayout> p_GlobalUBODescriptorSetLayout{};
-		std::vector<std::unique_ptr<Buffer>> p_GlobalUBOBuffers{SwapChain::MAX_FRAMES_IN_FLIGHT};
-		std::vector<VkDescriptorSet> p_GlobalUBODescriptorSets{SwapChain::MAX_FRAMES_IN_FLIGHT};
+		std::vector<std::unique_ptr<Buffer>> p_GlobalUBOBuffers{MAX_FRAMES_IN_FLIGHT};
+		std::vector<VkDescriptorSet> p_GlobalUBODescriptorSets{MAX_FRAMES_IN_FLIGHT};
 
 		std::vector<VkCommandBuffer> m_CommandBuffers;
 		uint32_t m_CurrentImageIndex{0};

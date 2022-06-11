@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Types.h"
-#include "engine/core/Window.h"
+#include "engine/window/Window.h"
 #include "Instance.h"
 #include "Surface.h"
 
@@ -16,6 +16,7 @@ namespace Spyder::Vulkan {
 		Device &operator=(const Device &) = delete;
 
 		void init();
+		void waitForDevice();
 		void cleanup();
 
 		VkDevice getDevice() { return m_Device; }
@@ -33,7 +34,7 @@ namespace Spyder::Vulkan {
 		QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(m_PhysicalDevice); }
 
 		VkFormat findSupportedFormat(const std::vector<VkFormat> &candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
-		void createImageWithInfo(const VkImageCreateInfo &imageInfo, VkMemoryPropertyFlags properties, VkImage &image, VkDeviceMemory &imageMemory);
+
 		VkPhysicalDeviceProperties m_Properties{};
 	private:
 		void pickPhysicalDevice();

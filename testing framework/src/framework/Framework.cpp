@@ -11,4 +11,5 @@ void Framework::runGameLoop() {
 	while (!engine.shouldClose()) {
 		engine.display();
 	}
+	engine.close();
 }

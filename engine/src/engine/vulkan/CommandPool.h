@@ -14,6 +14,7 @@ namespace Spyder::Vulkan {
 		CommandPool &operator=(const CommandPool &) = delete;
 
 		void init();
+		void cleanup();
 
 		VkCommandPool getCommandPool() { return m_CommandPool; }
 

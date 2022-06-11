@@ -13,4 +13,8 @@ namespace Spyder::Vulkan {
 
 		VK_CHECK(vkCreateCommandPool(r_Device.getDevice(), &poolInfo, nullptr, &m_CommandPool));
 	}
+
+	void CommandPool::cleanup() {
+		vkDestroyCommandPool(r_Device.getDevice(), m_CommandPool, nullptr);
+	}
 } // Vulkan

@@ -23,10 +23,18 @@ namespace Spyder::Vulkan {
 
 		VmaAllocationCreateInfo allocationCreateInfo{};
 		allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO;
-		allocationCreateInfo.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT | VMA_ALLOCATION_CREATE_MAPPED_BIT;
+		allocationCreateInfo.flags = VMA_ALLOCATION_CREATE_HOST_ACCESS_SEQUENTIAL_WRITE_BIT;
 
 
 		VK_CHECK(vmaCreateBuffer(m_Allocator, &bufferCreateInfo, &allocationCreateInfo, &buffer, &bufferMemoryAllocation, nullptr));
+	}
+
+	void MemoryManagement::createImage(VkImage &image, VmaAllocation &imageMemory, VkImageCreateInfo &imageInfo, VkMemoryPropertyFlags properties) {
+		VmaAllocationCreateInfo allocationCreateInfo{};
+		allocationCreateInfo.usage = VMA_MEMORY_USAGE_AUTO;
+		allocationCreateInfo.flags = VMA_ALLOCATION_CREATE_DEDICATED_MEMORY_BIT;
+
+		VK_CHECK(vmaCreateImage(m_Allocator, &imageInfo, &allocationCreateInfo, &image, &imageMemory, nullptr));
 	}
 
 	VkResult MemoryManagement::mapMemory(VmaAllocation &memoryAllocation, void **data) {
@@ -43,5 +51,34 @@ namespace Spyder::Vulkan {
 
 	VkResult MemoryManagement::invalidateMemory(VmaAllocation &memoryAllocation, VkDeviceSize offset, VkDeviceSize size) {
 		return vmaInvalidateAllocation(m_Allocator, memoryAllocation, offset, size);
+	}
+
+	void MemoryManagement::destroyBuffer(VkBuffer &buffer, VmaAllocation &memoryAllocation) {
+		m_DeletionQueues[m_CurrentIndex].push_function(
+				[=]() {
+					vmaDestroyBuffer(m_Allocator, buffer, memoryAllocation);
+				});
+	}
+
+	void MemoryManagement::destroyImage(VkImage &image, VmaAllocation &memoryAllocation) {
+		m_DeletionQueues[m_CurrentIndex].push_function(
+				[=]() {
+					vmaDestroyImage(m_Allocator, image, memoryAllocation);
+				});
+	}
+
+	void MemoryManagement::cleanup() {
+		for (DeletionQueue &deletionQueue : m_DeletionQueues) {
+			deletionQueue.flush();
+		}
+		vmaDestroyAllocator(m_Allocator);
+	}
+
+	void MemoryManagement::flush() {
+		m_DeletionQueues[m_CurrentIndex].flush();
+	}
+
+	void MemoryManagement::setCurrentIndex(uint32_t index) {
+		m_CurrentIndex = index;
 	}
 } // Vulkan
