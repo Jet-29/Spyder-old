@@ -91,6 +91,14 @@ namespace Spyder::Vulkan {
 		createInfo.enabledExtensionCount = static_cast<uint32_t>(m_DeviceExtensions.size());
 		createInfo.ppEnabledExtensionNames = m_DeviceExtensions.data();
 
+		if (r_Instance.enableValidationLayers) {
+			SPYDER_CORE_TRACE("Enabling device specific validationLayers...");
+			createInfo.enabledLayerCount = static_cast<uint32_t>(r_Instance.getValidationLayers().size());
+			createInfo.ppEnabledLayerNames = r_Instance.m_ValidationLayers.data();
+		} else {
+			createInfo.enabledLayerCount = 0;
+		}
+
 		VK_CHECK(vkCreateDevice(m_PhysicalDevice, &createInfo, nullptr, &m_Device));
 
 		vkGetDeviceQueue(m_Device, indices.graphicsFamily, 0, &m_GraphicsQueue);

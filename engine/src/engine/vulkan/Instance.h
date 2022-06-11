@@ -26,6 +26,11 @@ namespace Spyder::Vulkan {
 
 		[[nodiscard]] uint32_t getApiVersion() const { return m_ApiVersion; }
 
+		[[nodiscard]] std::vector<const char *> getValidationLayers() { return m_ValidationLayers; }
+
+		const std::vector<const char *> m_ValidationLayers = {"VK_LAYER_KHRONOS_validation"};
+
+
 	private:
 		bool checkValidationLayerSupport();
 		std::vector<const char *> getRequiredExtensions();
@@ -40,7 +45,6 @@ namespace Spyder::Vulkan {
 
 		uint32_t m_ApiVersion = VK_API_VERSION_1_3;
 
-		const std::vector<const char *> m_ValidationLayers = {"VK_LAYER_KHRONOS_validation"};
 	};
 
 } // Vulkan
