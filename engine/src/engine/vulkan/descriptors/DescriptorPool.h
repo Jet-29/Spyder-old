@@ -22,7 +22,7 @@ namespace Spyder::Vulkan {
 		};
 
 		DescriptorPool(Device &device, uint32_t maxSets, VkDescriptorPoolCreateFlags poolFlags, const std::vector<VkDescriptorPoolSize> &poolSizes);
-		~DescriptorPool();
+		~DescriptorPool() = default;
 
 		DescriptorPool(const DescriptorPool &) = delete;
 		DescriptorPool &operator=(const DescriptorPool &) = delete;

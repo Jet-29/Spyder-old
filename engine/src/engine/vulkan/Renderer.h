@@ -8,6 +8,7 @@
 #include "engine/vulkan/renderers/MeshRenderer.h"
 #include "engine/vulkan/descriptors/DescriptorWriter.h"
 #include "Buffer.h"
+#include "engine/vulkan/gui/UI.h"
 
 namespace Spyder::Vulkan {
 
@@ -44,6 +45,7 @@ namespace Spyder::Vulkan {
 		SwapChain m_SwapChain{m_Device, m_Surface, m_MemoryManager};
 		ShaderCache m_ShaderCache{};
 		MeshRenderer m_MeshRenderer{m_Device, m_MemoryManager, m_ShaderCache};
+		UI m_GUI{m_Instance, m_Device};
 
 		std::unique_ptr<DescriptorPool> p_GlobalUBOPool{};
 		std::unique_ptr<DescriptorSetLayout> p_GlobalUBODescriptorSetLayout{};

@@ -20,6 +20,7 @@ namespace Spyder {
 
 		static GameObject createGameObject();
 		void addToDrawList(GameObject &obj);
+		void clearDrawList();
 
 	private:
 		Window m_Window{};

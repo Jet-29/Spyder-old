@@ -6,7 +6,9 @@ namespace Spyder {
 	}
 
 	void EventHandler::init(GLFWwindow *window) {
+		SPYDER_CORE_TRACE("Initializing event handler...");
 		glfwSetKeyCallback(window, keyCallback);
+		glfwSetCursorPosCallback(window, mousePosCallback);
 	}
 
 	void EventHandler::checkEvents() {

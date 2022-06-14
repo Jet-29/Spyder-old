@@ -6,6 +6,7 @@ namespace Spyder::Vulkan {
 	MeshRenderer::MeshRenderer(Device &device, MemoryManagement &memManager, ShaderCache &shaderCache) : r_Device{device}, r_MemoryManager{memManager}, r_ShaderCache{shaderCache} {}
 
 	void MeshRenderer::init(VkRenderPass renderPass, VkDescriptorSetLayout descriptorSetLayout) {
+		SPYDER_CORE_TRACE("Initializing mesh renderer...");
 		createPipelineLayout(descriptorSetLayout);
 		createPipeline(renderPass);
 	}
@@ -34,6 +35,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void MeshRenderer::createPipelineLayout(VkDescriptorSetLayout globalSetLayout) {
+		SPYDER_CORE_TRACE("Creating pipeline layout...");
 		VkPushConstantRange pushConstantRange{};
 		pushConstantRange.stageFlags = VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT;
 		pushConstantRange.offset = 0;
@@ -52,6 +54,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void MeshRenderer::createPipeline(VkRenderPass renderPass) {
+		SPYDER_CORE_TRACE("Creating pipeline...");
 		if (m_PipelineLayout == nullptr) SPYDER_CORE_ERROR("Cannot create pipeline before pipeline layout");
 		PipelineConfigInfo pipelineConfig{};
 		Pipeline::defaultPipelineConfigInfo(pipelineConfig);
@@ -65,6 +68,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void MeshRenderer::cleanup() {
+		SPYDER_CORE_TRACE("Mesh renderer cleanup...");
 		m_Pipeline.cleanup();
 		vkDestroyPipelineLayout(r_Device.getDevice(), m_PipelineLayout, nullptr);
 	}

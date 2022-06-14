@@ -211,6 +211,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Device::waitForDevice() {
+		SPYDER_CORE_TRACE("Waiting for device...");
 		vkDeviceWaitIdle(m_Device);
 	}
 } // Vulkan

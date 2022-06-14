@@ -54,8 +54,9 @@ namespace Spyder {
 	}
 
 	void Window::frameBufferResizedCallback(GLFWwindow *openWindow, int width, int height) {
-		SPYDER_CORE_TRACE("Window was resized!");
 		auto window = reinterpret_cast<Window *>(glfwGetWindowUserPointer(openWindow));
+		if (window->m_FrameBufferResized) return;
+		SPYDER_CORE_TRACE("Window was resized!");
 		window->m_FrameBufferResized = true;
 		window->m_WindowSize = {width, height};
 	}

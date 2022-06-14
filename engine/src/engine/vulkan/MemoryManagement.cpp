@@ -4,6 +4,7 @@ namespace Spyder::Vulkan {
 	MemoryManagement::MemoryManagement(Instance &instance, Device &device) : r_Instance{instance}, r_Device{device} {}
 
 	void MemoryManagement::init() {
+		SPYDER_CORE_TRACE("Initializing memory management...");
 		VmaAllocatorCreateInfo allocatorCreateInfo = {};
 		allocatorCreateInfo.vulkanApiVersion = r_Instance.getApiVersion();
 		allocatorCreateInfo.physicalDevice = r_Device.getPhysicalDevice();
@@ -68,6 +69,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void MemoryManagement::cleanup() {
+		SPYDER_CORE_TRACE("Memory management cleanup");
 		for (DeletionQueue &deletionQueue : m_DeletionQueues) {
 			deletionQueue.flush();
 		}

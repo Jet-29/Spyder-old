@@ -6,8 +6,10 @@ namespace Spyder {
 	}
 
 	void Engine::init() {
+		SPYDER_CORE_INFO("Initializing the engine...");
 		m_Window.init(1280, 720, "Spyder Graphics Engine");
 		m_Renderer.init();
+		SPYDER_CORE_INFO("Engine initialized");
 	}
 
 	void Engine::display() {
@@ -16,16 +18,19 @@ namespace Spyder {
 	}
 
 	GameObject Engine::createGameObject() {
+		SPYDER_CORE_TRACE("Creating game object...");
 		return GameObject::createGameObject();
 	}
 
 	void Engine::addToDrawList(GameObject &obj) {
+		SPYDER_CORE_TRACE("Adding game object to draw list...");
 		m_GameObjects.emplace(obj.getId(), std::move(obj));
 	}
 
 	Engine::~Engine() {
 		if (!m_closed) {
 			SPYDER_CORE_WARN("Closing engine without calling close()");
+			close();
 		}
 	}
 
@@ -34,6 +39,11 @@ namespace Spyder {
 		m_closed = true;
 		m_Renderer.cleanup();
 		m_Window.cleanup();
+		SPYDER_CORE_TRACE("Engine cleanup successful");
+	}
+
+	void Engine::clearDrawList() {
+		m_GameObjects.clear();
 	}
 
 } // Spyder

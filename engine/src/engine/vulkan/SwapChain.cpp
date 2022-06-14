@@ -63,8 +63,8 @@ namespace Spyder::Vulkan {
 	}
 
 	void SwapChain::init(glm::vec2 windowSize) {
-		m_WindowSize = windowSize;
 		SPYDER_CORE_TRACE("Initializing the swapChain...");
+		m_WindowSize = windowSize;
 		// setting the correct extent
 		m_WindowExtent.width = static_cast<uint32_t>(m_WindowSize[0]);
 		m_WindowExtent.height = static_cast<uint32_t>(m_WindowSize[1]);
@@ -349,6 +349,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void SwapChain::cleanup() {
+		SPYDER_CORE_TRACE("SwapChain cleanup");
 		for (auto imageView : m_SwapChainImageViews) {
 			vkDestroyImageView(r_Device.getDevice(), imageView, nullptr);
 		}
@@ -380,5 +381,49 @@ namespace Spyder::Vulkan {
 			vkDestroySemaphore(r_Device.getDevice(), imageAvailableSemaphores[i], nullptr);
 			vkDestroyFence(r_Device.getDevice(), inFlightFences[i], nullptr);
 		}
+	}
+
+	void SwapChain::recreate(glm::vec2 windowSize) {
+		SPYDER_CORE_TRACE("SwapChain recreation");
+
+		// cleanup
+		for (auto imageView : m_SwapChainImageViews) {
+			vkDestroyImageView(r_Device.getDevice(), imageView, nullptr);
+		}
+
+		for (auto imageView : m_DepthImageViews) {
+			vkDestroyImageView(r_Device.getDevice(), imageView, nullptr);
+		}
+
+		m_SwapChainImageViews.clear();
+		m_DepthImageViews.clear();
+
+		if (swapChain != nullptr) {
+			vkDestroySwapchainKHR(r_Device.getDevice(), swapChain, nullptr);
+			swapChain = nullptr;
+		}
+
+		for (int i = 0; i < m_DepthImages.size(); i++) {
+			r_MemoryManager.destroyImage(m_DepthImages[i], m_DepthImageMemories[i]);
+		}
+
+		for (auto frameBuffer : m_SwapChainFramebuffers) {
+			vkDestroyFramebuffer(r_Device.getDevice(), frameBuffer, nullptr);
+		}
+
+		vkDestroyRenderPass(r_Device.getDevice(), m_RenderPass, nullptr);
+
+
+		// init
+		m_WindowSize = windowSize;
+		// setting the correct extent
+		m_WindowExtent.width = static_cast<uint32_t>(m_WindowSize[0]);
+		m_WindowExtent.height = static_cast<uint32_t>(m_WindowSize[1]);
+
+		createSwapChain();
+		createImageViews();
+		createRenderPass();
+		createDepthResources();
+		createFramebuffers();
 	}
 } // Vulkan

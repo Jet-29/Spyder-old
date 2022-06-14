@@ -19,6 +19,7 @@ namespace Spyder::Vulkan {
 		SwapChain &operator=(const SwapChain &) = delete;
 
 		void init(glm::vec2 windowSize);
+		void recreate(glm::vec2 windowSize);
 		void cleanup();
 
 		VkFramebuffer getFrameBuffer(uint32_t index) { return m_SwapChainFramebuffers[index]; }

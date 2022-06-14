@@ -10,6 +10,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Surface::cleanup() {
+		SPYDER_CORE_TRACE("Surface cleanup");
 		vkDestroySurfaceKHR(r_Instance.getInstance(), m_Surface, nullptr);
 	}
 } // Vulkan

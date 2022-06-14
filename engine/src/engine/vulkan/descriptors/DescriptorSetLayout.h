@@ -19,7 +19,7 @@ namespace Spyder::Vulkan {
 		};
 
 		DescriptorSetLayout(Device &device, const std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> &bindings);
-		~DescriptorSetLayout();
+		~DescriptorSetLayout() = default;
 
 		DescriptorSetLayout(const DescriptorSetLayout &) = delete;
 		DescriptorSetLayout &operator=(const DescriptorSetLayout &) = delete;

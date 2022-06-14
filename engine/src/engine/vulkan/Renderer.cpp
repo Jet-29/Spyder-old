@@ -15,12 +15,15 @@ namespace Spyder::Vulkan {
 		createDescriptors();
 		m_MeshRenderer.init(m_SwapChain.getRenderPass(), p_GlobalUBODescriptorSetLayout->getDescriptorSetLayout());
 		createCommandBuffers();
+		m_GUI.init();
 		SPYDER_CORE_TRACE("Vulkan render initialized");
 	}
 
 	void Renderer::cleanup() {
+		SPYDER_CORE_TRACE("Renderer cleanup");
 		m_Device.waitForDevice();
 
+		m_GUI.cleanup();
 		freeCommandBuffers();
 		deleteDescriptors();
 		m_MeshRenderer.cleanup();
@@ -33,6 +36,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Renderer::createCommandBuffers() {
+		SPYDER_CORE_TRACE("Creating command buffers");
 		m_CommandBuffers.resize(MAX_FRAMES_IN_FLIGHT);
 
 		VkCommandBufferAllocateInfo allocInfo{};
@@ -45,11 +49,13 @@ namespace Spyder::Vulkan {
 	}
 
 	void Renderer::freeCommandBuffers() {
+		SPYDER_CORE_TRACE("Freeing command buffers");
 		vkFreeCommandBuffers(m_Device.getDevice(), m_CommandPool.getCommandPool(), static_cast<uint32_t>(m_CommandBuffers.size()), m_CommandBuffers.data());
 		m_CommandBuffers.clear();
 	}
 
 	void Renderer::recreateSwapChain() {
+		SPYDER_CORE_TRACE("Recreating swap chain...");
 		auto extent = r_Window.getWindowExtent();
 		while (extent[0] == 0 || extent[1] == 0) {
 			extent = r_Window.getWindowExtent();
@@ -58,8 +64,7 @@ namespace Spyder::Vulkan {
 		vkDeviceWaitIdle(m_Device.getDevice());
 
 
-		m_SwapChain.cleanup();
-		m_SwapChain.init(extent);
+		m_SwapChain.recreate(extent);
 	}
 
 	void Renderer::beginFrame() {
@@ -68,8 +73,8 @@ namespace Spyder::Vulkan {
 		auto result = m_SwapChain.acquireNextImage(&m_CurrentImageIndex);
 
 		while (result == VK_ERROR_OUT_OF_DATE_KHR) {
-			result = m_SwapChain.acquireNextImage(&m_CurrentImageIndex);
 			recreateSwapChain();
+			result = m_SwapChain.acquireNextImage(&m_CurrentImageIndex);
 		}
 
 		if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR) {
@@ -144,6 +149,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Renderer::createDescriptors() {
+		SPYDER_CORE_TRACE("Creating descriptors");
 		p_GlobalUBOPool = DescriptorPool::Builder(m_Device).setMaxSets(MAX_FRAMES_IN_FLIGHT).addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, MAX_FRAMES_IN_FLIGHT).build();
 
 		for (auto &uboBuffer : p_GlobalUBOBuffers) {
@@ -161,6 +167,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Renderer::deleteDescriptors() {
+		SPYDER_CORE_TRACE("Destroying descriptors");
 		for (auto &uboBuffer : p_GlobalUBOBuffers) {
 			uboBuffer->cleanup();
 		}

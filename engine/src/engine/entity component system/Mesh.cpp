@@ -2,7 +2,8 @@
 
 namespace Spyder {
 
-	void Mesh::loadModel(std::vector<Vertex> vertices) {
+	void Mesh::loadModel(const std::vector<Vertex>& vertices) {
+		SPYDER_TRACE("loading model to game object mesh...");
 		m_AllVertices.clear();
 		m_UniqueVertices.clear();
 		m_VertexMap.clear();
@@ -18,6 +19,10 @@ namespace Spyder {
 			}
 			m_Indices.push_back(m_VertexMap[vertex]);
 		}
+		SPYDER_TRACE("game object mesh has:");
+		SPYDER_TRACE("Total vertices: {0}", m_AllVertices.size());
+		SPYDER_TRACE("Total optimized vertices: {0}", m_UniqueVertices.size());
+		SPYDER_TRACE("Total indices: {0}", m_Indices.size());
 	}
 
 	std::vector<Vertex> &Mesh::getUniqueVertices() {

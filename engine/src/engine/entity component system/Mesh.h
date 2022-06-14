@@ -14,7 +14,7 @@ namespace Spyder {
 		Mesh(Mesh &&) = default;
 		Mesh &operator=(Mesh &&) = default;
 
-		void loadModel(std::vector<Vertex> vertices);
+		void loadModel(const std::vector<Vertex>& vertices);
 
 		[[nodiscard]] std::vector<Vertex> &getUniqueVertices();
 		[[nodiscard]] std::vector<uint32_t> &getUniqueIndices();

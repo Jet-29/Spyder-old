@@ -16,6 +16,7 @@ namespace Spyder::Vulkan {
 	}
 
 	std::unique_ptr<DescriptorSetLayout> DescriptorSetLayout::Builder::build() const {
+		SPYDER_CORE_TRACE("Building descriptor set layout...");
 		return std::make_unique<DescriptorSetLayout>(r_Device, bindings);
 	}
 
@@ -33,11 +34,8 @@ namespace Spyder::Vulkan {
 		VK_CHECK(vkCreateDescriptorSetLayout(r_Device.getDevice(), &descriptorSetLayoutInfo, nullptr, &m_DescriptorSetLayout));
 	}
 
-	DescriptorSetLayout::~DescriptorSetLayout() {
-		vkDestroyDescriptorSetLayout(r_Device.getDevice(), m_DescriptorSetLayout, nullptr);
-	}
-
 	void DescriptorSetLayout::cleanup() {
+		SPYDER_CORE_TRACE("Descriptor set layout");
 		vkDestroyDescriptorSetLayout(r_Device.getDevice(), m_DescriptorSetLayout, nullptr);
 	}
 } // Vulkan

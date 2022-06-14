@@ -9,6 +9,7 @@ void Framework::runGameLoop() {
 	myTriangle.m_Mesh.loadModel({{{-0.5f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}}, {{0.0f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}}, {{0.5f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}}});
 	engine.addToDrawList(myTriangle);
 	while (!engine.shouldClose()) {
+		totalTime += 0.01f;
 		engine.display();
 	}
 	engine.close();

@@ -25,4 +25,12 @@ set(SOURCE_FILES
         "src/engine/entity component system/GameObject.cpp"
         "src/engine/entity component system/Transform.cpp"
         "src/engine/window/EventHandler.cpp"
+        "src/engine/vulkan/gui/imgui/imgui.cpp"
+        "src/engine/vulkan/gui/imgui/imgui_draw.cpp"
+        "src/engine/vulkan/gui/imgui/imgui_tables.cpp"
+        "src/engine/vulkan/gui/imgui/imgui_widgets.cpp"
+        "src/engine/vulkan/gui/imgui/imgui_demo.cpp"
+        "src/engine/vulkan/gui/imgui/imgui_impl_glfw.cpp"
+        "src/engine/vulkan/gui/imgui/imgui_impl_vulkan.cpp"
+        "src/engine/vulkan/gui/UI.cpp"
         )

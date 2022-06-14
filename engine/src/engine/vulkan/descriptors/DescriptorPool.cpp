@@ -37,10 +37,6 @@ namespace Spyder::Vulkan {
 		VK_CHECK(vkCreateDescriptorPool(r_Device.getDevice(), &descriptorPoolInfo, nullptr, &m_DescriptorPool));
 	}
 
-	DescriptorPool::~DescriptorPool() {
-		vkDestroyDescriptorPool(r_Device.getDevice(), m_DescriptorPool, nullptr);
-	}
-
 	bool DescriptorPool::allocateDescriptor(const VkDescriptorSetLayout descriptorSetLayout, VkDescriptorSet &descriptor) const {
 		SPYDER_CORE_TRACE("Allocating descriptor...");
 		VkDescriptorSetAllocateInfo allocInfo{};
@@ -67,6 +63,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void DescriptorPool::cleanup() {
+		SPYDER_CORE_TRACE("Descriptor pool cleanup");
 		vkDestroyDescriptorPool(r_Device.getDevice(), m_DescriptorPool, nullptr);
 	}
 } // Vulkan

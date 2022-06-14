@@ -4,6 +4,7 @@ namespace Spyder::Vulkan {
 	Pipeline::Pipeline(Device &device) : r_Device{device} {}
 
 	void Pipeline::init(const std::vector<uint32_t> &vertShaderArray, const std::vector<uint32_t> &fragShaderArray, const PipelineConfigInfo &configInfo) {
+		SPYDER_CORE_TRACE("Initializing pipeline...");
 		createGraphicsPipeline(vertShaderArray, fragShaderArray, configInfo);
 	}
 
@@ -12,6 +13,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Pipeline::defaultPipelineConfigInfo(PipelineConfigInfo &configInfo) {
+		SPYDER_CORE_TRACE("Creating default pipeline config");
 		configInfo.inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 		configInfo.inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 		configInfo.inputAssemblyInfo.primitiveRestartEnable = VK_FALSE;
@@ -97,6 +99,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Pipeline::createGraphicsPipeline(const std::vector<uint32_t> &vertShaderArray, const std::vector<uint32_t> &fragShaderArray, const PipelineConfigInfo &configInfo) {
+		SPYDER_CORE_TRACE("Creating pipeline...");
 		if (configInfo.pipelineLayout == VK_NULL_HANDLE) SPYDER_CORE_ERROR("Cannot create graphics pipeline, no pipeline layout provided");
 		if (configInfo.renderPass == VK_NULL_HANDLE) SPYDER_CORE_ERROR("Cannot create graphics pipeline, no pipeline renderPass provided");
 
@@ -162,6 +165,7 @@ namespace Spyder::Vulkan {
 	}
 
 	void Pipeline::cleanup() {
+		SPYDER_CORE_TRACE("Pipeline cleanup");
 		vkDestroyShaderModule(r_Device.getDevice(), m_VertShaderModule, nullptr);
 		vkDestroyShaderModule(r_Device.getDevice(), m_FragShaderModule, nullptr);
 		vkDestroyPipeline(r_Device.getDevice(), m_GraphicsPipeline, nullptr);

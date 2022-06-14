@@ -9,4 +9,5 @@ public:
 
 private:
 	Spyder::Engine engine{};
+	float totalTime{0};
 };
