@@ -181,12 +181,14 @@ namespace Spyder::Vulkan {
 		FrameInfo frameInfo{m_CurrentFrameIndex, 0.1f, m_CommandBuffers[m_CurrentFrameIndex], p_GlobalUBODescriptorSets[m_CurrentFrameIndex], gameObjects};
 		m_MemoryManager.setCurrentIndex(m_CurrentFrameIndex);
 		m_MemoryManager.flush();
+		m_CommandBufferFunctionQueue.flushForwards(frameInfo.commandBuffer);
 		// update stuff
 
 		beginSwapChainRenderPass();
 		// render system to draw the stuff
 
 		m_MeshRenderer.render(frameInfo);
+		m_GUI.render(frameInfo);
 
 		endSwapChainRenderPass();
 		endFrame();

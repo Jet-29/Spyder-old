@@ -36,6 +36,8 @@ namespace Spyder::Vulkan {
 		void beginSwapChainRenderPass();
 		void endSwapChainRenderPass();
 
+		CommandBufferFunctionQueue m_CommandBufferFunctionQueue{};
+
 		Window &r_Window;
 		Instance m_Instance{};
 		Surface m_Surface{m_Instance, r_Window};
@@ -45,7 +47,7 @@ namespace Spyder::Vulkan {
 		SwapChain m_SwapChain{m_Device, m_Surface, m_MemoryManager};
 		ShaderCache m_ShaderCache{};
 		MeshRenderer m_MeshRenderer{m_Device, m_MemoryManager, m_ShaderCache};
-		UI m_GUI{m_Instance, m_Device};
+		UI m_GUI{m_Instance, m_Device, m_SwapChain, r_Window, m_CommandPool};
 
 		std::unique_ptr<DescriptorPool> p_GlobalUBOPool{};
 		std::unique_ptr<DescriptorSetLayout> p_GlobalUBODescriptorSetLayout{};

@@ -2,6 +2,7 @@
 
 #include <vulkan/vulkan.hpp>
 #include "engine/entity component system/GameObject.h"
+#include <deque>
 
 namespace Spyder::Vulkan {
 	struct SwapChainSupportDetails {
@@ -57,5 +58,14 @@ namespace Spyder::Vulkan {
 		VkPipelineLayout pipelineLayout = nullptr;
 		VkRenderPass renderPass = nullptr;
 		uint32_t subPass = 0;
+	};
+
+	struct CommandBufferFunctionQueue {
+		void pushFunction(std::function<void(VkCommandBuffer commandBuffer)> &&function);
+		void flushForwards(VkCommandBuffer commandBuffer);
+		void flushBackwards(VkCommandBuffer commandBuffer);
+
+	private:
+		std::deque<std::function<void(VkCommandBuffer commandBuffer)>> functions;
 	};
 }
