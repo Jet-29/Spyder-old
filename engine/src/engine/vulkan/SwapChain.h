@@ -3,9 +3,6 @@
 #include "Device.h"
 #include "MemoryManagement.h"
 
-#include <glm/glm.hpp>
-#include <memory>
-
 namespace Spyder::Vulkan {
 
 	class SwapChain {

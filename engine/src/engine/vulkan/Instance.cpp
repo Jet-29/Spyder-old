@@ -1,7 +1,6 @@
 #include "Instance.h"
 
 #include <GLFW/glfw3.h>
-#include <unordered_set>
 
 namespace Spyder::Vulkan {
 

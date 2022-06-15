@@ -1,8 +1,8 @@
 #pragma once
 
-#include "VulkanPrecompiledHeaders.h"
 #include "engine/core/Base.h"
-#include <vulkan/vulkan.hpp>
+#include "VulkanPrecompiledHeaders.h"
+#include "VulkanTypes.h"
 
 #define VK_CHECK(x)                                                         \
     do                                                                      \

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "engine/vulkan/VulkanBase.h"
-#include <vulkan/vulkan.hpp>
 
 namespace Spyder::Vulkan {
 

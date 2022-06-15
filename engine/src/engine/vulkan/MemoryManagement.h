@@ -2,9 +2,6 @@
 
 #include "Instance.h"
 #include "Device.h"
-#include "MemoryAllocator.h"
-
-#include <deque>
 
 namespace Spyder::Vulkan {
 

@@ -1,8 +1,7 @@
 #pragma once
 
-#include <vulkan/vulkan.hpp>
-#include "engine/window/Window.h"
 #include "engine/vulkan/Instance.h"
+#include "engine/window/Window.h"
 
 namespace Spyder::Vulkan {
 

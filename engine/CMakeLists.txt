@@ -18,3 +18,4 @@ set(Libraries "${Vulkan_LIBRARIES} ${DEV_LIBS}/glfw/lib/glfw3.lib ${DEV_LIBS}/sh
 set(CMAKE_STATIC_LINKER_FLAGS ${Libraries})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${Includes})
+target_precompile_headers(${PROJECT_NAME} PRIVATE ${PrecompiledHeaders})

@@ -1,7 +1,5 @@
 #include "Device.h"
 
-#include <set>
-
 namespace Spyder::Vulkan {
 	Device::Device(Instance &instance, Surface &surface) : r_Instance{instance}, r_Surface{surface} {
 

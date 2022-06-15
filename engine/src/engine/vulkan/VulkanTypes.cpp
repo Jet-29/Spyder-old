@@ -1,5 +1,5 @@
-#include "engine/vulkan/Types.h"
-#include <ranges>
+#include "engine/vulkan/VulkanTypes.h"
+
 
 namespace Spyder::Vulkan {
 	void CommandBufferFunctionQueue::pushFunction(std::function<void(VkCommandBuffer commandBuffer)> &&function) {

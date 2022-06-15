@@ -1,8 +1,7 @@
 #pragma once
 
-#include <vulkan/vulkan.hpp>
 #include "engine/entity component system/GameObject.h"
-#include <deque>
+#include "VulkanBase.h"
 
 namespace Spyder::Vulkan {
 	struct SwapChainSupportDetails {

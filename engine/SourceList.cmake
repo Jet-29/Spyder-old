@@ -33,5 +33,10 @@ set(SOURCE_FILES
         "src/engine/vulkan/gui/imgui/imgui_impl_glfw.cpp"
         "src/engine/vulkan/gui/imgui/imgui_impl_vulkan.cpp"
         "src/engine/vulkan/gui/UI.cpp"
-        "src/engine/vulkan/Types.cpp"
+        "src/engine/vulkan/VulkanTypes.cpp"
+        )
+
+set(PrecompiledHeaders
+        "src/engine/core/PrecompiledHeaders.h"
+        "src/engine/vulkan/VulkanPrecompiledHeaders.h"
         )
