@@ -7,8 +7,7 @@
 #include "engine/vulkan/Batch.h"
 #include "engine/vulkan/SwapChain.h"
 
-#include <deque>
-#include <functional>
+
 
 namespace Spyder::Vulkan {
 

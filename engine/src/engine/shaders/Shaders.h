@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "engine/core/Base.h"
 
 namespace Spyder::Vulkan::Shaders {
 	const std::string VertexMeshShader = R"(

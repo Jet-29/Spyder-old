@@ -3,8 +3,6 @@
 #include "Mesh.h"
 #include "Transform.h"
 
-#include <unordered_map>
-
 namespace Spyder {
 
 	class GameObject {

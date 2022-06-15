@@ -20,6 +20,7 @@ namespace Spyder::Vulkan {
 			if (obj.m_Mesh.getUniqueVertices().empty()) continue;
 			PushConstantData push{};
 			push.modelMatrix = obj.m_Transform.mat4();
+			frameInfo.triangleCount += obj.m_Mesh.getUniqueIndices().size();
 
 			vkCmdPushConstants(frameInfo.commandBuffer, m_PipelineLayout, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(PushConstantData), &push);
 

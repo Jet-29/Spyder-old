@@ -1,8 +1,6 @@
 #pragma once
 
-#include <vector>
-#include <string>
-#include <unordered_map>
+#include "engine/core/Base.h"
 #include <shaderc/shaderc.hpp>
 
 namespace Spyder {

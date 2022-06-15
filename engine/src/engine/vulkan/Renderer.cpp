@@ -176,9 +176,9 @@ namespace Spyder::Vulkan {
 		p_GlobalUBOPool->cleanup();
 	}
 
-	void Renderer::render(GameObject::map &gameObjects) {
+	void Renderer::render(GameObject::map &gameObjects, float deltaTime) {
 		beginFrame();
-		FrameInfo frameInfo{m_CurrentFrameIndex, 0.1f, m_CommandBuffers[m_CurrentFrameIndex], p_GlobalUBODescriptorSets[m_CurrentFrameIndex], gameObjects};
+		FrameInfo frameInfo{m_CurrentFrameIndex, deltaTime, m_CommandBuffers[m_CurrentFrameIndex], p_GlobalUBODescriptorSets[m_CurrentFrameIndex], gameObjects};
 		m_MemoryManager.setCurrentIndex(m_CurrentFrameIndex);
 		m_MemoryManager.flush();
 		m_CommandBufferFunctionQueue.flushForwards(frameInfo.commandBuffer);

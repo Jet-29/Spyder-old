@@ -13,8 +13,9 @@ namespace Spyder {
 	}
 
 	void Engine::display() {
+		updateDeltaTime();
 		m_Window.getEventHandler().checkEvents();
-		m_Renderer.render(m_GameObjects);
+		m_Renderer.render(m_GameObjects, getDeltaTime());
 	}
 
 	GameObject Engine::createGameObject() {
@@ -44,6 +45,20 @@ namespace Spyder {
 
 	void Engine::clearDrawList() {
 		m_GameObjects.clear();
+	}
+
+	float Engine::getDeltaTime() {
+	return m_DeltaTime;
+	}
+
+	void Engine::updateDeltaTime() {
+		auto newTime = std::chrono::high_resolution_clock::now();
+		float deltaTime = std::chrono::duration<float, std::chrono::seconds::period>(newTime - m_LastTime).count();
+		m_DeltaTime = deltaTime;
+		m_LastTime = newTime;
+		if (m_MaxDeltaTime != 0) {
+			m_DeltaTime = std::min(m_DeltaTime, m_MaxDeltaTime);
+		}
 	}
 
 } // Spyder

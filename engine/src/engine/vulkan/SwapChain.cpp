@@ -95,6 +95,8 @@ namespace Spyder::Vulkan {
 		createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
 		createInfo.surface = r_Surface.getSurface();
 
+
+
 		createInfo.minImageCount = imageCount;
 		createInfo.imageFormat = surfaceFormat.format;
 		createInfo.imageColorSpace = surfaceFormat.colorSpace;
@@ -305,7 +307,7 @@ namespace Spyder::Vulkan {
 	VkSurfaceFormatKHR SwapChain::chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats) {
 		SPYDER_CORE_TRACE("Selecting Swap chain surface format...");
 		for (const auto &availableFormat : availableFormats) {
-			if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
+			if (availableFormat.format == VK_FORMAT_B8G8R8A8_UNORM  && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR) {
 				return availableFormat;
 			}
 		}

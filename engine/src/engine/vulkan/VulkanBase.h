@@ -1,5 +1,6 @@
 #pragma once
 
+#include "VulkanPrecompiledHeaders.h"
 #include "engine/core/Base.h"
 #include <vulkan/vulkan.hpp>
 

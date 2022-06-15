@@ -1,11 +1,6 @@
 #pragma once
 
-#include <glm/glm.hpp>
-#include <vector>
 #include "engine/utilities/UtilityFunctions.h"
-
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/hash.hpp>
 
 namespace Spyder {
 	typedef enum SpyderFormat {

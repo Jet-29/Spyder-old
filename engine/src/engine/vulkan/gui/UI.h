@@ -4,9 +4,6 @@
 #include "engine/vulkan/SwapChain.h"
 #include "engine/vulkan/Instance.h"
 #include "engine/vulkan/CommandPool.h"
-#include "engine/vulkan/gui/imgui/imgui.h"
-#include "engine/vulkan/gui/imgui/imgui_impl_vulkan.h"
-#include "engine/vulkan/gui/imgui/imgui_impl_glfw.h"
 
 namespace Spyder::Vulkan {
 	class UI {

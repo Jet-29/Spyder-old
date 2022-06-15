@@ -1,5 +1,5 @@
 #pragma once
-
+#include "VulkanBase.h"
 #include "Instance.h"
 #include "Device.h"
 #include "SwapChain.h"
@@ -21,7 +21,7 @@ namespace Spyder::Vulkan {
 		Renderer &operator=(const Renderer &) = delete;
 
 		void init();
-		void render(GameObject::map &gameObjects);
+		void render(GameObject::map &gameObjects, float deltaTime);
 		void cleanup();
 
 	private:

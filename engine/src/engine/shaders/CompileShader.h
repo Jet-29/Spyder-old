@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-#include <string>
 #include <shaderc/shaderc.hpp>
 #include "engine/core/Base.h"
 

@@ -2,7 +2,7 @@
 
 #include "MemoryManagement.h"
 #include "Buffer.h"
-#include "engine/core/Base.h"
+#include "engine/vulkan/VulkanBase.h"
 
 namespace Spyder::Vulkan {
 

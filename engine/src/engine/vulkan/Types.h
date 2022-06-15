@@ -27,6 +27,7 @@ namespace Spyder::Vulkan {
 		// todo:: add camera
 		VkDescriptorSet descriptorSet;
 		GameObject::map &gameObjects;
+		uint32_t triangleCount = 0;
 	};
 
 	struct PushConstantData {

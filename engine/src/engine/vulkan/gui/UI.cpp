@@ -51,7 +51,13 @@ namespace Spyder::Vulkan {
 		ImGui_ImplVulkan_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		ImGui::ShowDemoWindow();
+
+		// my ui
+		ImGui::Begin("Spyder");
+		ImGui::Text("Frame time: %fms, FPS: %f", frameInfo.frameTime * 1000, 1/frameInfo.frameTime);
+		ImGui::Text("Triangle count: %d", frameInfo.triangleCount);
+		ImGui::End();
+
 		ImGui::Render();
 		ImGui_ImplVulkan_RenderDrawData(ImGui::GetDrawData(), frameInfo.commandBuffer);
 	}
@@ -71,7 +77,7 @@ namespace Spyder::Vulkan {
 		colors[ImGuiCol_TitleBg] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
 		colors[ImGuiCol_TitleBgActive] = ImVec4(0.06f, 0.06f, 0.06f, 1.00f);
 		colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.00f, 0.00f, 0.00f, 1.00f);
-		colors[ImGuiCol_MenuBarBg] = ImVec4(0.14f, 0.14f, 1.0f, 1.00f);
+		colors[ImGuiCol_MenuBarBg] = ImVec4(0.14f, 0.14f, 0.14f, 1.00f);
 		colors[ImGuiCol_ScrollbarBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.54f);
 		colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.34f, 0.34f, 0.34f, 0.54f);
 		colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.40f, 0.40f, 0.40f, 0.54f);
